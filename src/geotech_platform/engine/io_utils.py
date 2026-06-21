@@ -56,6 +56,7 @@ def write_parquet(path: str, rows: list[dict]) -> bool:
     """Try to write Parquet via pandas. Returns True on success, False if no engine."""
     try:
         import pandas as pd
+
         df = pd.DataFrame([{k: _csv_val(v) for k, v in r.items()} for r in rows])
         df.to_parquet(path, index=False)
         return True
@@ -70,6 +71,7 @@ def write_sqlite(db_path: str, tables: dict):
     """
     ensure_dir(os.path.dirname(db_path))
     import tempfile
+
     # Build on local disk first: SQLite is unreliable on networked/mounted FS.
     tmpfd, tmppath = tempfile.mkstemp(suffix=".sqlite")
     os.close(tmpfd)
@@ -90,7 +92,8 @@ def write_sqlite(db_path: str, tables: dict):
         )
     con.commit()
     con.close()
-    from gpkg_writer import _publish
+    from .gpkg_writer import _publish
+
     _publish(tmppath, db_path)
 
 

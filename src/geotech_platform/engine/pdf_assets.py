@@ -35,14 +35,14 @@ import hashlib
 import os
 import re
 
-import config
-import map_config as MC
-from pdf_text import extract_pdf, quality_score
+from . import config
+from . import map_config as MC
+from .pdf_text import extract_pdf
 
-MIN_W = 150          # px
+MIN_W = 150  # px
 MIN_H = 150
-MIN_BYTES = 6000     # skip tiny icons/tiles
-MAX_PER_PDF = 80     # keep the largest N meaningful images per PDF
+MIN_BYTES = 6000  # skip tiny icons/tiles
+MAX_PER_PDF = 80  # keep the largest N meaningful images per PDF
 
 _OBJ_DICT = re.compile(rb"<<(.*?)>>", re.DOTALL)
 
@@ -103,10 +103,10 @@ def extract_images_from_pdf(path, out_dir, region):
         for m in re.finditer(filt, data):
             # find enclosing dict start '<<' before, and 'stream' after
             dict_start = data.rfind(b"<<", max(0, m.start() - 2000), m.start())
-            sm = re.search(rb"stream\r?\n", data[m.start():m.start() + 4000])
+            sm = re.search(rb"stream\r?\n", data[m.start() : m.start() + 4000])
             if dict_start == -1 or not sm:
                 continue
-            dict_bytes = data[dict_start:m.start() + 200]
+            dict_bytes = data[dict_start : m.start() + 200]
             # must be an image xobject
             if b"/Image" not in dict_bytes and b"/Subtype" not in dict_bytes:
                 # DCT streams are images even if /Subtype split; keep going
@@ -124,8 +124,16 @@ def extract_images_from_pdf(path, out_dir, region):
             h = _intval(dict_bytes, "/Height")
             if (w and w < MIN_W) or (h and h < MIN_H):
                 continue
-            found.append({"offset": m.start(), "bytes": raw, "ext": ext,
-                          "w": w, "h": h, "filter": filt.decode().lstrip("/")})
+            found.append(
+                {
+                    "offset": m.start(),
+                    "bytes": raw,
+                    "ext": ext,
+                    "w": w,
+                    "h": h,
+                    "filter": filt.decode().lstrip("/"),
+                }
+            )
     # dedupe by content hash, keep largest
     uniq = {}
     for f in found:
@@ -142,20 +150,25 @@ def extract_images_from_pdf(path, out_dir, region):
         fname = f"{fid}.{f['ext']}"
         with open(os.path.join(out_dir, fname), "wb") as fh:
             fh.write(f["bytes"])
-        rows.append({
-            "asset_id": fid,
-            "source_region": region,
-            "source_pdf": os.path.basename(path),
-            "file": os.path.join("pdf_assets", region, fname),
-            "page_estimate": _est_page(f["offset"], page_offsets),
-            "format": f["ext"], "encoding": f["filter"],
-            "width_px": f["w"], "height_px": f["h"], "bytes": len(f["bytes"]),
-            "content_type_guess": _content_guess(f["w"], f["h"], len(f["bytes"])),
-            "caption": "",          # to be filled by OCR/vision/human
-            "content_label": "",    # to be filled (curated labels file overrides)
-            "hash": f["hash"],
-            "label_status": "pending_ai_or_manual",
-        })
+        rows.append(
+            {
+                "asset_id": fid,
+                "source_region": region,
+                "source_pdf": os.path.basename(path),
+                "file": os.path.join("pdf_assets", region, fname),
+                "page_estimate": _est_page(f["offset"], page_offsets),
+                "format": f["ext"],
+                "encoding": f["filter"],
+                "width_px": f["w"],
+                "height_px": f["h"],
+                "bytes": len(f["bytes"]),
+                "content_type_guess": _content_guess(f["w"], f["h"], len(f["bytes"])),
+                "caption": "",  # to be filled by OCR/vision/human
+                "content_label": "",  # to be filled (curated labels file overrides)
+                "hash": f["hash"],
+                "label_status": "pending_ai_or_manual",
+            }
+        )
     return rows
 
 
@@ -164,7 +177,9 @@ def count_undecoded(path):
     return {
         "jbig2_scanned_pages": len(re.findall(rb"/JBIG2Decode", data)),
         "ccitt_scanned": len(re.findall(rb"/CCITTFault", data)),
-        "flate_raster_images": len(re.findall(rb"/FlateDecode", re.sub(rb"[^/]", b"", b""))),  # placeholder 0
+        "flate_raster_images": len(
+            re.findall(rb"/FlateDecode", re.sub(rb"[^/]", b"", b""))
+        ),  # placeholder 0
     }
 
 
@@ -187,27 +202,40 @@ def build():
             all_rows.extend(rows)
             # undecoded counts
             data = open(path, "rb").read()
-            undecoded.append({
-                "source_region": region, "source_pdf": os.path.basename(path),
-                "jbig2_scanned": len(re.findall(rb"/JBIG2Decode", data)),
-                "ccitt_scanned": len(re.findall(rb"/CCITTFault", data)),
-                "note": "JBIG2/CCITT bi-level page scans not decoded offline; OCR/vision needed.",
-            })
+            undecoded.append(
+                {
+                    "source_region": region,
+                    "source_pdf": os.path.basename(path),
+                    "jbig2_scanned": len(re.findall(rb"/JBIG2Decode", data)),
+                    "ccitt_scanned": len(re.findall(rb"/CCITTFault", data)),
+                    "note": "JBIG2/CCITT bi-level page scans not decoded offline; OCR/vision needed.",
+                }
+            )
             # text
             try:
                 res = extract_pdf(path)
             except Exception:
                 res = {"text": "", "quality": 0.0, "n_pages": 0}
-            text_rows.append({
-                "source_region": region, "source_pdf": os.path.basename(path),
-                "pages_est": res["n_pages"], "chars": len(res["text"]),
-                "text_quality": round(res["quality"], 3),
-                "readable": "yes" if (res["quality"] >= 0.85 and len(res["text"]) > 200) else "no (CID/scanned -> review)",
-                "text_sample": res["text"][:800],
-            })
+            text_rows.append(
+                {
+                    "source_region": region,
+                    "source_pdf": os.path.basename(path),
+                    "pages_est": res["n_pages"],
+                    "chars": len(res["text"]),
+                    "text_quality": round(res["quality"], 3),
+                    "readable": "yes"
+                    if (res["quality"] >= 0.85 and len(res["text"]) > 200)
+                    else "no (CID/scanned -> review)",
+                    "text_sample": res["text"][:800],
+                }
+            )
     n_prev = _make_previews(all_rows)
     _write_outputs(all_rows, text_rows, undecoded)
-    return {"images": len(all_rows), "text_blocks": len(text_rows), "previews_png": n_prev}
+    return {
+        "images": len(all_rows),
+        "text_blocks": len(text_rows),
+        "previews_png": n_prev,
+    }
 
 
 def _make_previews(rows):
@@ -230,7 +258,8 @@ def _make_previews(rows):
         dst = os.path.join(prev_dir, r["asset_id"] + ".png")
         rel = os.path.join("pdf_assets", "_preview_png", r["asset_id"] + ".png")
         try:
-            im = Image.open(src); im.load()
+            im = Image.open(src)
+            im.load()
             im.thumbnail((1000, 1000))
             im.convert("RGB").save(dst)
             r["preview_png"] = rel
@@ -241,7 +270,8 @@ def _make_previews(rows):
 
 
 def _write_outputs(rows, text_rows, undecoded):
-    import io_utils as IO
+    from . import io_utils as IO
+
     # merge curated labels if present
     curated = _load_curated()
     for r in rows:
@@ -253,12 +283,15 @@ def _write_outputs(rows, text_rows, undecoded):
     IO.write_csv(os.path.join(config.PDF_ASSETS, "pdf_asset_index.csv"), rows)
     IO.write_json(os.path.join(config.PDF_ASSETS, "pdf_asset_index.json"), rows)
     IO.write_csv(os.path.join(config.PDF_ASSETS, "pdf_text_blocks.csv"), text_rows)
-    IO.write_csv(os.path.join(config.PDF_ASSETS, "pdf_undecoded_scanned.csv"), undecoded)
+    IO.write_csv(
+        os.path.join(config.PDF_ASSETS, "pdf_undecoded_scanned.csv"), undecoded
+    )
     _clustering_summary(rows, text_rows, undecoded)
 
 
 def _load_curated():
     import csv
+
     p = os.path.join(config.KNOWLEDGE, "pdf_curated_labels.csv")
     out = {}
     if os.path.exists(p):
@@ -269,11 +302,14 @@ def _load_curated():
 
 def _clustering_summary(rows, text_rows, undecoded):
     from collections import Counter
-    lines = ["# PDF assets — content summary (clustering layer, v1)\n",
-             "Structured index of figures/photos and text extracted from the GSJ "
-             "explanatory PDFs. Images are grouped by a heuristic content-type guess; "
-             "curated AI labels (where present) refine them. This is the basis for a "
-             "future clustering/retrieval layer over the report figures.\n"]
+
+    lines = [
+        "# PDF assets — content summary (clustering layer, v1)\n",
+        "Structured index of figures/photos and text extracted from the GSJ "
+        "explanatory PDFs. Images are grouped by a heuristic content-type guess; "
+        "curated AI labels (where present) refine them. This is the basis for a "
+        "future clustering/retrieval layer over the report figures.\n",
+    ]
     by_region = Counter(r["source_region"] for r in rows)
     lines.append("## Extracted images by region")
     lines.append("| Region | Images extracted |")
@@ -286,24 +322,37 @@ def _clustering_summary(rows, text_rows, undecoded):
     for t, n in by_type.most_common():
         lines.append(f"| {t} | {n} |")
     labelled = sum(1 for r in rows if r.get("label_status") == "ai_curated")
-    lines.append(f"\n**AI-curated labels:** {labelled} of {len(rows)} images "
-                 f"(remaining `pending_ai_or_manual`).")
+    lines.append(
+        f"\n**AI-curated labels:** {labelled} of {len(rows)} images "
+        f"(remaining `pending_ai_or_manual`)."
+    )
     lines.append("\n## Text extraction status")
-    lines.append("| Region | PDF | Pages | Chars | Quality | Readable |\n|---|---|---|---|---|---|")
+    lines.append(
+        "| Region | PDF | Pages | Chars | Quality | Readable |\n|---|---|---|---|---|---|"
+    )
     for t in text_rows:
-        lines.append(f"| {t['source_region']} | {t['source_pdf']} | {t['pages_est']} | "
-                     f"{t['chars']} | {t['text_quality']} | {t['readable']} |")
+        lines.append(
+            f"| {t['source_region']} | {t['source_pdf']} | {t['pages_est']} | "
+            f"{t['chars']} | {t['text_quality']} | {t['readable']} |"
+        )
     lines.append("\n## Undecoded scanned content (need OCR/vision)")
     lines.append("| Region | PDF | JBIG2 pages | CCITT | Note |\n|---|---|---|---|---|")
     for u in undecoded:
-        lines.append(f"| {u['source_region']} | {u['source_pdf']} | {u['jbig2_scanned']} | "
-                     f"{u['ccitt_scanned']} | {u['note']} |")
+        lines.append(
+            f"| {u['source_region']} | {u['source_pdf']} | {u['jbig2_scanned']} | "
+            f"{u['ccitt_scanned']} | {u['note']} |"
+        )
     lines.append("\n## Tables")
-    lines.append("Table structure detection is not performed offline (needs a layout/OCR "
-                 "engine). Tabular content in scanned monographs is flagged via the text "
-                 "rows above and should be transcribed during manual review.")
-    with open(os.path.join(config.PDF_ASSETS, "pdf_assets_clustering_summary.md"),
-              "w", encoding="utf-8") as fh:
+    lines.append(
+        "Table structure detection is not performed offline (needs a layout/OCR "
+        "engine). Tabular content in scanned monographs is flagged via the text "
+        "rows above and should be transcribed during manual review."
+    )
+    with open(
+        os.path.join(config.PDF_ASSETS, "pdf_assets_clustering_summary.md"),
+        "w",
+        encoding="utf-8",
+    ) as fh:
         fh.write("\n".join(lines))
 
 

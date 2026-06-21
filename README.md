@@ -46,21 +46,20 @@ and citable sources (`knowledge/sources.yaml`). This is what the app drills into
 ## Quick start
 
 ```bash
-pip install pyyaml pillow            # core (pillow enables figure previews)
-python run_pipeline.py               # build everything (reads ../sample_geology_reports)
+uv sync                              # install all runtime dependencies
+uv run geotech-build                 # build everything (reads ./geology_reports)
 
 # point query with full chain:
-python engine/query.py 35.62 139.40
+uv run geotech-query 35.62 139.40
 
 # drill-down UI (bilingual):
-pip install streamlit pandas
-streamlit run app/streamlit_app.py
+uv run geotech-app
 ```
 
 ## Standalone & raw data
 
 This folder is self-contained for code, knowledge base and outputs. The **raw
-geology data is referenced, not copied**, from the sibling `sample_geology_reports/`
+geology data is referenced, not copied**, from the project-root `geology_reports/`
 folder (override with `GEO_RAW_ROOT`). Raw files are only ever read.
 
 ## Layout
@@ -78,17 +77,18 @@ reference/
   geotech_ontology.yaml, geology_to_geotech_rules.yaml, engineering_risk_dictionary.yaml,
   lithology_dictionary_ja_en.csv, i18n_ja.yaml, manual_review_guidelines.md   (copied, standalone)
 
-engine/
-  config.py            paths (raw data → ../sample_geology_reports)
-  map_config.py        per-sheet field profiles
-  shapefile_io.py geo_utils.py gpkg_writer.py io_utils.py pdf_text.py i18n.py   (pure-Python core)
-  boundaries.py        region boundary derivation + region_for_point()
-  inference.py         the layered L1–L4 engine (evidence-linked chains)
-  pdf_assets.py        figure extraction + AI-ready index + clustering summary
-  query.py             point query returning the full chain
-  build.py             orchestrator
-
-app/streamlit_app.py   bilingual hierarchical drill-down UI
+src/geotech_platform/
+  cli.py               console entry points: geotech-build, geotech-query, geotech-app
+  engine/
+    config.py          paths (raw data → ./geology_reports)
+    map_config.py      per-sheet field profiles
+    shapefile_io.py geo_utils.py gpkg_writer.py io_utils.py pdf_text.py i18n.py   (pure-Python core)
+    boundaries.py      region boundary derivation + region_for_point()
+    inference.py       the layered L1–L4 engine (evidence-linked chains)
+    pdf_assets.py      figure extraction + AI-ready index + clustering summary
+    query.py           point query returning the full chain
+    build.py           orchestrator
+  app/streamlit_app.py bilingual hierarchical drill-down UI
 database/              tokyo_geotech_v2.gpkg + .sqlite
 outputs/
   boundaries/          region_boundaries_review.md

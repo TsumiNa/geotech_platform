@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geotech-platform"
+version = "0.1.0"
+description = "Standalone geology-to-geotech screening platform with layered inference and Streamlit drill-down UI."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["pandas>=2.0", "pillow>=9.0", "pyyaml>=6.0", "streamlit>=1.30"]
+
+[project.scripts]
+geotech-app = "geotech_platform.cli:app"
+geotech-build = "geotech_platform.cli:build"
+geotech-query = "geotech_platform.cli:query"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["geotech_platform*"]
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "pandas-stubs>=2.3.3.260113",
+    "pytest>=9.1.1",
+    "types-pyyaml>=6.0.12.20260518",
+]

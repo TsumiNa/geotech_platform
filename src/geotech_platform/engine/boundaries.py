@@ -22,15 +22,15 @@ be inspected and corrected by hand.
 from __future__ import annotations
 
 import os
+
 import yaml
 
-import config
-import map_config as MC
-from shapefile_io import read_shp
-import geo_utils as G
+from . import config
+from . import map_config as MC
+from .shapefile_io import read_shp
 
-QUAD_LON = 0.25          # 15 arc-minutes
-QUAD_LAT = 1.0 / 6.0     # 10 arc-minutes
+QUAD_LON = 0.25  # 15 arc-minutes
+QUAD_LAT = 1.0 / 6.0  # 10 arc-minutes
 
 
 def _snap_quad(bbox):
@@ -56,27 +56,34 @@ def compute():
         for sh in shapes:
             for ring in sh.parts:
                 for x, y in ring:
-                    xs.append(x); ys.append(y)
+                    xs.append(x)
+                    ys.append(y)
         data_bbox = (min(xs), min(ys), max(xs), max(ys)) if xs else (0, 0, 0, 0)
         nominal = _snap_quad(data_bbox)
-        regions.append({
-            "region": m["region"],
-            "map_name_en": m["map_name_en"],
-            "map_name_ja": m["map_name_ja"],
-            "year": m["year"],
-            "crs": "EPSG:4612 (JGD2000 geographic, lon/lat)",
-            "n_polygons": len(shapes),
-            "actual_data_bbox": {
-                "lon_min": round(data_bbox[0], 6), "lat_min": round(data_bbox[1], 6),
-                "lon_max": round(data_bbox[2], 6), "lat_max": round(data_bbox[3], 6),
-            },
-            "nominal_quadrangle": {
-                "lon_min": nominal[0], "lat_min": nominal[1],
-                "lon_max": nominal[2], "lat_max": nominal[3],
-                "span_deg": {"lon": QUAD_LON, "lat": round(QUAD_LAT, 6)},
-            },
-            "review_status": "auto-derived (please verify against the GSJ sheet frame)",
-        })
+        regions.append(
+            {
+                "region": m["region"],
+                "map_name_en": m["map_name_en"],
+                "map_name_ja": m["map_name_ja"],
+                "year": m["year"],
+                "crs": "EPSG:4612 (JGD2000 geographic, lon/lat)",
+                "n_polygons": len(shapes),
+                "actual_data_bbox": {
+                    "lon_min": round(data_bbox[0], 6),
+                    "lat_min": round(data_bbox[1], 6),
+                    "lon_max": round(data_bbox[2], 6),
+                    "lat_max": round(data_bbox[3], 6),
+                },
+                "nominal_quadrangle": {
+                    "lon_min": nominal[0],
+                    "lat_min": nominal[1],
+                    "lon_max": nominal[2],
+                    "lat_max": nominal[3],
+                    "span_deg": {"lon": QUAD_LON, "lat": round(QUAD_LAT, 6)},
+                },
+                "review_status": "auto-derived (please verify against the GSJ sheet frame)",
+            }
+        )
     return regions
 
 
@@ -97,10 +104,10 @@ def write(regions):
         "meta": {
             "version": "0.1.0",
             "derivation": "actual_data_bbox from geo_A polygons; nominal_quadrangle "
-                          "snapped to the GSJ 1:50,000 grid (0.25 deg lon x 1/6 deg lat).",
+            "snapped to the GSJ 1:50,000 grid (0.25 deg lon x 1/6 deg lat).",
             "review_required": True,
             "note": "Edit nominal_quadrangle here if it does not match the official "
-                    "sheet frame; region_for_point() uses these values.",
+            "sheet frame; region_for_point() uses these values.",
         },
         "regions": regions,
     }
@@ -109,26 +116,35 @@ def write(regions):
         yaml.safe_dump(doc, fh, allow_unicode=True, sort_keys=False)
 
     # human review markdown
-    lines = ["# Region boundaries — review sheet\n",
-             "Both the **actual data extent** (from the polygons) and the **nominal "
-             "1:50,000 quadrangle frame** are listed. Point→region assignment uses the "
-             "nominal frame. Verify these against the official GSJ sheets and correct "
-             "`reference/region_boundaries.yaml` if needed.\n",
-             "| Region | Map | Data lon range | Data lat range | Nominal lon | Nominal lat |",
-             "|---|---|---|---|---|---|"]
+    lines = [
+        "# Region boundaries — review sheet\n",
+        "Both the **actual data extent** (from the polygons) and the **nominal "
+        "1:50,000 quadrangle frame** are listed. Point→region assignment uses the "
+        "nominal frame. Verify these against the official GSJ sheets and correct "
+        "`reference/region_boundaries.yaml` if needed.\n",
+        "| Region | Map | Data lon range | Data lat range | Nominal lon | Nominal lat |",
+        "|---|---|---|---|---|---|",
+    ]
     for r in regions:
-        d = r["actual_data_bbox"]; q = r["nominal_quadrangle"]
+        d = r["actual_data_bbox"]
+        q = r["nominal_quadrangle"]
         lines.append(
             f"| {r['region']} | {r['map_name_en']} ({r['map_name_ja']}) | "
             f"{d['lon_min']}–{d['lon_max']} | {d['lat_min']}–{d['lat_max']} | "
-            f"{q['lon_min']}–{q['lon_max']} | {q['lat_min']}–{q['lat_max']} |")
-    lines += ["",
-              "Each GSJ 1:50,000 quadrangle spans 15′ longitude (0.25°) × 10′ latitude "
-              "(≈0.16667°). The three sheets tile together: Hachioji (NW) and "
-              "Tokyo-Seinambu (NE) share the northern row; Yokohama sits south of "
-              "Tokyo-Seinambu.\n"]
-    with open(os.path.join(config.BOUNDARIES, "region_boundaries_review.md"), "w",
-              encoding="utf-8") as fh:
+            f"{q['lon_min']}–{q['lon_max']} | {q['lat_min']}–{q['lat_max']} |"
+        )
+    lines += [
+        "",
+        "Each GSJ 1:50,000 quadrangle spans 15′ longitude (0.25°) × 10′ latitude "
+        "(≈0.16667°). The three sheets tile together: Hachioji (NW) and "
+        "Tokyo-Seinambu (NE) share the northern row; Yokohama sits south of "
+        "Tokyo-Seinambu.\n",
+    ]
+    with open(
+        os.path.join(config.BOUNDARIES, "region_boundaries_review.md"),
+        "w",
+        encoding="utf-8",
+    ) as fh:
         fh.write("\n".join(lines))
     return out_yaml
 
@@ -145,7 +161,10 @@ if __name__ == "__main__":
     regs = compute()
     write(regs)
     for r in regs:
-        d = r["actual_data_bbox"]; q = r["nominal_quadrangle"]
-        print(f"{r['region']} {r['map_name_en']:20s} data lon {d['lon_min']}-{d['lon_max']} "
-              f"lat {d['lat_min']}-{d['lat_max']} | nominal lon {q['lon_min']}-{q['lon_max']} "
-              f"lat {q['lat_min']}-{q['lat_max']}")
+        d = r["actual_data_bbox"]
+        q = r["nominal_quadrangle"]
+        print(
+            f"{r['region']} {r['map_name_en']:20s} data lon {d['lon_min']}-{d['lon_max']} "
+            f"lat {d['lat_min']}-{d['lat_max']} | nominal lon {q['lon_min']}-{q['lon_max']} "
+            f"lat {q['lat_min']}-{q['lat_max']}"
+        )
