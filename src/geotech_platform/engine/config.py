@@ -26,7 +26,10 @@ def _find_project_root() -> str:
             candidate / "pyproject.toml"
         ).exists():
             return str(candidate)
-    return str(Path(__file__).resolve().parents[3])
+    raise RuntimeError(
+        "Unable to locate geotech_platform project root (missing reference/knowledge and pyproject.toml). "
+        "Run from the project root or set GEOTECH_PLATFORM_ROOT."
+    )
 
 
 ENGINE_DIR = os.path.dirname(os.path.abspath(__file__))

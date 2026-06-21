@@ -37,9 +37,10 @@ class V2Index:
 
     def _load(self):
         # chains/cards
-        chains = json.load(
-            open(os.path.join(config.PROC, "inference_chains.json"), encoding="utf-8")
-        )
+        with open(
+            os.path.join(config.PROC, "inference_chains.json"), encoding="utf-8"
+        ) as fh:
+            chains = json.load(fh)
         self.cards = {c["geology_unit_card_id"]: c for c in chains}
         # feature attributes
         attrs = {}
