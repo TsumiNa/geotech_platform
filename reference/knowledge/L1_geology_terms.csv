@@ -1,0 +1,21 @@
+term_id,priority,match_on,match_keywords_ja,geological_material,primary_lithology_ja,primary_lithology_en,grain_or_rock,depositional_environment_ja,depositional_environment_en,typical_consolidation,formation_group_ja,stratigraphic_note_en,source_ref
+L1_fill,10,name,埋立;盛土;人工;埋立地;埋立土;改変;造成,artificial,人工材料（盛土・埋立）,artificial fill / reclaimed material,mixed,人工地盤,Human-placed fill or reclaimed land; composition/age variable and often undocumented.,GSJ_MAP
+L1_peat_swamp,15,name,泥炭;湿地;低湿地;後背湿地;沼,sediment_soil,腐植土・泥炭・有機質シルト,peat / organic soil,fine_organic,後背湿地・沼沢,Holocene organic / back-marsh soft soil; very high compressibility.,JSEG_ALLUVIUM_DILUVIUM
+L1_alluvium,20,name,沖積層;現河床;河床;氾濫原;谷底;自然堤防;砂州;三角州;扇状地;旧河道;崖錐;沖積錐,sediment_soil,礫・砂・シルト・粘土（互層）,gravel/sand/silt/clay (interbedded),mixed_soil,河川・氾濫原・低地,Holocene alluvial lowland deposits; normally consolidated; shallow groundwater common.,JSEG_ALLUVIUM_DILUVIUM
+L1_kanto_loam,25,name,ローム;火山灰;関東ローム;スコリア;軽石;テフラ;黒ボク,sediment_soil,火山灰質粘性土（ローム）,volcanic ash cohesive soil (loam),volcanic_ash,風成（火山灰降下）,Aeolian volcanic-ash (Kanto Loam / tephra); high water content & void ratio.,GSJ_BULL_KANTO_LOAM
+L1_terrace,30,name,段丘;段丘堆積物;段丘礫;砂礫層,sediment_soil,礫・砂（一部シルト）,gravel and sand (terrace),terrace_gravel,河成・海成段丘,Pleistocene terrace deposit (diluvium); overconsolidated; often a bearing stratum.,JSEG_ALLUVIUM_DILUVIUM
+L1_kazusa_group,35,name,柿生層;王禅寺層;飯室層;生田層;稲城層;高津層;鶴川層;出店層;上倉田層;上星川層;鶴見層;寺尾層,sedimentary_rock,泥岩・砂岩・砂泥互層,mudstone / sandstone / alternation,weak_rock,上総層群,Plio-Pleistocene Kazusa Group marine strata; soft sedimentary rock; mudstone slaking-prone.,OBAYASHI_KAZUSA_MUDSTONE
+L1_miura_group,36,name,大船層;小柴層;野島層;浦郷層;深沢層;中里層;屏風ガ浦層;戸塚層;舞岡層;浜層;長沼層,sedimentary_rock,凝灰質砂岩・泥岩,tuffaceous sandstone / mudstone,weak_rock,三浦層群,Mio-Pliocene Miura Group; tuffaceous weak sedimentary rock.,JGS_3811_ROCK
+L1_shimanto_basement,40,name,ユニット;砂岩頁岩互層;千枚質頁岩;権現山;小仏,sedimentary_rock,砂岩頁岩互層・千枚質頁岩,sandstone-shale alternation / phyllitic shale,moderate_hard_rock,小仏層群（四万十帯）,Cretaceous–Paleogene accretionary basement (Kobotoke/Shimanto); harder bedded rock; structure-controlled.,JGS_3811_ROCK
+L1_volcanic_pyroclastic,45,name,凝灰岩;火砕;火山角礫岩;火山砕屑;凝灰質;溶結,pyroclastic,凝灰岩・火山角礫岩,tuff / volcanic breccia,pyroclastic_rock,火山砕屑（火砕流・降下）,Neogene pyroclastic / tuffaceous rock; strongly variable induration.,ROCK_ENG_NOTE
+L1_hard_igneous,50,name,花崗岩;閃緑岩;玄武岩;安山岩;斑れい岩;片麻岩;結晶片岩;チャート,igneous_metamorphic,結晶質岩・火成岩,crystalline / igneous rock,hard_rock,,Strong crystalline/igneous rock; weathered mantle near surface.,JGS_3811_ROCK
+L1_fault,5,name,断層;破砕;破砕帯;せん断帯,structure,断層・破砕帯物質,fault / crush-zone material,fault_zone,構造性,Fault / fracture zone; localized weak crushed ground & groundwater pathway.,GSJ_MAP
+# ----- lithology fallbacks (lower priority; used when no formation matched) -----
+L1_litho_mudstone,60,litho,泥岩;頁岩;シルト岩,sedimentary_rock,泥岩・頁岩,mudstone / shale,weak_rock,,Weak fine-grained sedimentary rock; slaking & weathering sensitive.,JSEG_SLAKING
+L1_litho_sandstone,62,litho,砂岩;砂質礫岩;含礫砂岩,sedimentary_rock,砂岩,sandstone,weak_rock,,Weak-to-moderate sedimentary rock; cementation variable.,ROCK_ENG_NOTE
+L1_litho_conglomerate,63,litho,礫岩,sedimentary_rock,礫岩,conglomerate,weak_rock,,Sedimentary rock; cementation/clast variable.,ROCK_ENG_NOTE
+L1_litho_tuff,64,litho,凝灰岩;凝灰質,pyroclastic,凝灰岩,tuff,pyroclastic_rock,,Pyroclastic rock; induration variable.,ROCK_ENG_NOTE
+L1_litho_gravel,66,litho,礫,sediment_soil,礫,gravel,coarse_soil,,Granular coarse soil; density/saturation unknown.,JSEG_ALLUVIUM_DILUVIUM
+L1_litho_sand,67,litho,砂,sediment_soil,砂,sand,coarse_soil,,Granular soil; liquefaction screening if loose & saturated.,JSEG_ALLUVIUM_DILUVIUM
+L1_litho_mud_silt,68,litho,泥;シルト;粘土,sediment_soil,泥・シルト・粘土,mud / silt / clay,fine_soil,,Fine-grained cohesive soil; compressibility screening.,JSEG_ALLUVIUM_DILUVIUM
+L1_litho_ash,69,litho,火山灰;スコリア;軽石,sediment_soil,火山灰質土,volcanic ash soil,volcanic_ash,,Volcanic ash soil; moisture sensitive.,GSJ_BULL_KANTO_LOAM

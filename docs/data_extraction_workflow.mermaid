@@ -1,0 +1,60 @@
+sequenceDiagram
+    autonumber
+    actor U as User (run_pipeline.py)
+    participant B as build.py (orchestrator)
+    participant RAW as Raw GSJ data (read-only)
+    participant BND as boundaries.py
+    participant SHP as shapefile_io.py
+    participant GEO as geo_utils.py
+    participant INF as InferenceEngine (inference.py)
+    participant KB as Knowledge base (L1-L4 + sources)
+    participant PA as pdf_assets.py
+    participant PT as pdf_text.py
+    participant OUT as Database & outputs
+
+    U->>B: build()
+
+    Note over B,BND: Stage 3 - region boundaries
+    B->>BND: compute() + write()
+    BND->>RAW: read geo_A.shp extents
+    BND-->>OUT: region_boundaries.yaml + review.md
+
+    loop each sheet (08062 / 08063 / 08074)
+        Note over B,SHP: Stage 1 - vector extraction
+        B->>SHP: read_shapefile(geo_A.shp)
+        SHP->>RAW: parse .shp / .dbf / .prj (Shift-JIS / UTF-8)
+        SHP-->>B: shapes + attribute records + CRS
+
+        loop each polygon
+            Note over B: Stage 6 - normalize
+            B->>B: normalize(rec, field profile)
+            B->>GEO: polygon_area_m2 / centroid (Stage 2)
+            GEO-->>B: area, centroid
+
+            alt new distinct unit
+                Note over B,KB: Stage 7 - layered inference
+                B->>INF: infer(unit, asset_refs)
+                INF->>KB: L1 geology ID (rock/soil, age, consolidation)
+                INF->>KB: L2 translate to geotech ground type + terms
+                INF->>KB: L3 indicative properties (+ citable sources)
+                INF->>KB: L4 considerations + recommended investigation
+                INF-->>B: L1-L4 chain + risk flags + confidence
+            end
+        end
+    end
+
+    Note over B,PT: Stages 4-5 - PDF assets & text
+    B->>PA: build()
+    PA->>RAW: read explanatory PDFs (JPEG / JPEG2000)
+    PA->>PT: extract_pdf() for text + quality score
+    PT-->>PA: text blocks + readability flag
+    PA-->>OUT: pdf_asset_index (+ PNG previews, clustering summary)
+
+    Note over B,OUT: Stage 8 - persist
+    B->>OUT: write_gpkg / write_sqlite / write_csv / write_json
+    OUT-->>U: GeoPackage, SQLite, inference_chains.json, CSVs
+
+    Note over U,OUT: Later - interactive use (Stage 9)
+    U->>OUT: query_point(lat, lon)  [query.py]
+    OUT->>GEO: point_in_polygon / distance_to_boundary
+    OUT-->>U: unit + full L1-L4 drill-down chain

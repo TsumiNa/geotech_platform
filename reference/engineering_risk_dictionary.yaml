@@ -1,0 +1,232 @@
+# =============================================================================
+# engineering_risk_dictionary.yaml
+# -----------------------------------------------------------------------------
+# Definitions of the SCREENING risk flags used across the pipeline. Every flag is
+# a "may be relevant -> investigate" prompt, NOT a conclusion or a design value.
+# Each flag lists what it means, why a geology unit triggers it, and what to do
+# next. `screening_only: true` is a constant reminder of intended use.
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  principle: "Flags raise hypotheses and investigation needs; they never assert results."
+  screening_only: true
+
+flags:
+
+  variable_fill:
+    label: "Variable artificial fill"
+    meaning: "Ground is human-placed with uncertain composition, compaction and age."
+    why: "Unit indicates fill / reclaimed land."
+    next_step: "Prove fill extent/quality with boreholes and records search."
+    do_not_infer: "Do not assume engineered fill or any bearing value."
+
+  unknown_fill_thickness:
+    label: "Unknown fill thickness"
+    meaning: "Depth of fill and the fill/natural interface are unknown."
+    why: "Fill thickness is not shown on a geology map."
+    next_step: "Borehole to prove interface depth."
+    do_not_infer: "Do not assume a thickness."
+
+  settlement_screening:
+    label: "Settlement screening relevant"
+    meaning: "Compressible soils may be present; settlement worth screening."
+    why: "Soft/organic/fine-grained or fill material indicated."
+    next_step: "Boreholes + consolidation testing; groundwater data."
+    do_not_infer: "Do not estimate settlement magnitude or time from the map."
+
+  soft_compressible_soil:
+    label: "Soft / compressible soil possible"
+    meaning: "Low-strength, high-compressibility soil may be present."
+    why: "Organic, swamp, mud or young alluvial material indicated."
+    next_step: "Undisturbed sampling and consolidation/strength testing."
+    do_not_infer: "Do not infer strength or bearing capacity."
+
+  organic_soil:
+    label: "Organic soil possible"
+    meaning: "Peat/organic soil with very high compressibility may be present."
+    why: "Swamp/peat/marsh terms in unit or lithology."
+    next_step: "Sampling, organic content and consolidation testing."
+    do_not_infer: "Do not infer settlement or strength."
+
+  liquefaction_screening:
+    label: "Liquefaction screening relevant"
+    meaning: "Loose saturated granular soils may be present."
+    why: "Sandy alluvial / reclaimed / channel material with likely shallow water."
+    next_step: "CPTu/SPT, grain-size, groundwater; formal liquefaction screening."
+    do_not_infer: "Do not infer a liquefaction factor of safety."
+
+  shallow_groundwater:
+    label: "Shallow groundwater likely"
+    meaning: "Near-surface water table is plausible in this setting."
+    why: "Lowland/alluvial/reclaimed setting."
+    next_step: "Install piezometers / monitor groundwater."
+    do_not_infer: "Do not infer a design water level."
+
+  interbedded_variability:
+    label: "Interbedded layer variability"
+    meaning: "Strongly variable interbedded soils; governing layer uncertain."
+    why: "Alluvial / terrace deposits of mixed grain size."
+    next_step: "Closely logged boreholes with SPT."
+    do_not_infer: "Do not pick a governing layer without boreholes."
+
+  abrupt_layer_change:
+    label: "Abrupt layer changes"
+    meaning: "Sharp vertical/lateral changes in material are likely."
+    why: "Terrace deposits."
+    next_step: "Sufficient borehole density to capture changes."
+    do_not_infer: "Do not interpolate layering between sparse points."
+
+  cobbles_boulders_possible:
+    label: "Cobbles/boulders possible"
+    meaning: "Coarse clasts may cause boring refusal and pile difficulties."
+    why: "Terrace gravel / dense gravel units."
+    next_step: "Note refusal layers; consider pile installation method."
+    do_not_infer: "Do not assume continuous cobble layer extent."
+
+  perched_water_possible:
+    label: "Perched water possible"
+    meaning: "Water perched on low-permeability layers may be encountered."
+    why: "Layered terrace/tuff/rock with clay or contacts."
+    next_step: "Monitor multiple horizons during drilling."
+    do_not_infer: "Do not infer a single water table."
+
+  moisture_sensitive:
+    label: "Moisture-sensitive soil"
+    meaning: "Strength/behaviour change strongly with water content."
+    why: "Volcanic ash / loam."
+    next_step: "Water content / Atterberg; protect from wetting/drying."
+    do_not_infer: "Do not infer strength without moisture-state testing."
+
+  high_void_ratio:
+    label: "High void ratio soil"
+    meaning: "Open structure; possible collapse on loading/wetting."
+    why: "Loam / ash."
+    next_step: "Density/void ratio testing; collapse-potential screening."
+    do_not_infer: "Do not infer collapse magnitude."
+
+  thickness_uncertainty:
+    label: "Thickness uncertainty"
+    meaning: "Mantle/deposit thickness varies and is unknown from the map."
+    why: "Loam/ash/terrace cover varies with landform."
+    next_step: "Boreholes/test pits to log thickness."
+    do_not_infer: "Do not assume a uniform thickness."
+
+  slope_surface_erosion:
+    label: "Slope surface stability / erosion"
+    meaning: "Surface failures and erosion possible in cuts/fills."
+    why: "Loam/ash and weak materials on slopes."
+    next_step: "Slope surface-stability and drainage/erosion assessment."
+    do_not_infer: "Do not infer a slope factor of safety."
+
+  variable_strength:
+    label: "Variable strength"
+    meaning: "Material strength ranges from soil-like to rock-like."
+    why: "Tuff/pyroclastic ground."
+    next_step: "Core drilling and strength/slake testing."
+    do_not_infer: "Do not assign a strength class from the map."
+
+  weathering_degradation:
+    label: "Weathering / degradation"
+    meaning: "Exposed material may weaken with time/exposure."
+    why: "Weak rock, tuff, crystalline rock weathered zones."
+    next_step: "Weathering-grade logging; slake-durability tests."
+    do_not_infer: "Do not infer long-term strength loss magnitude."
+
+  slaking:
+    label: "Slaking susceptibility"
+    meaning: "Mudstone/shale may disintegrate on wetting/drying."
+    why: "Mudstone/shale/siltstone units."
+    next_step: "Slake-durability testing; protect exposures."
+    do_not_infer: "Do not infer durability class without tests."
+
+  variable_rockhead:
+    label: "Variable rockhead depth"
+    meaning: "Top-of-rock depth varies and is unknown from the map."
+    why: "Weathered rock / soil cover of unknown thickness."
+    next_step: "Boreholes to prove rockhead."
+    do_not_infer: "Do not assume rockhead depth."
+
+  bedding_controlled_slope_excavation:
+    label: "Bedding-controlled slope/excavation"
+    meaning: "Bedding orientation may control slope and excavation stability."
+    why: "Bedded sedimentary rock."
+    next_step: "Discontinuity survey; kinematic assessment."
+    do_not_infer: "Do not infer slope stability result."
+
+  slope_excavation_risk:
+    label: "Slope / excavation risk"
+    meaning: "Excavation faces and slopes may be unstable."
+    why: "Pyroclastic / weak materials."
+    next_step: "Engineering-geological slope/excavation assessment."
+    do_not_infer: "Do not infer a factor of safety."
+
+  weathered_zone:
+    label: "Weathered zone near surface"
+    meaning: "Near-surface rock may be much weaker than fresh rock."
+    why: "Crystalline / hard rock with weathering mantle."
+    next_step: "Log weathering grades; corestone assessment."
+    do_not_infer: "Do not infer fresh-rock properties at shallow depth."
+
+  corestones_possible:
+    label: "Corestones possible"
+    meaning: "Hard corestones in weathered rock may impede excavation/piling."
+    why: "Weathered granite/crystalline rock."
+    next_step: "Assess corestone potential; plan installation method."
+    do_not_infer: "Do not assume continuous rockhead."
+
+  jointing_control:
+    label: "Jointing / discontinuity control"
+    meaning: "Joint pattern controls excavatability and stability."
+    why: "Crystalline/hard rock."
+    next_step: "Joint survey; rock-mass classification."
+    do_not_infer: "Do not infer rock-mass quality from the map."
+
+  high_uncertainty:
+    label: "High spatial uncertainty"
+    meaning: "Position/extent/behaviour poorly constrained at 1:50,000."
+    why: "Fault/fracture or ambiguous unit."
+    next_step: "Targeted investigation to locate/characterise."
+    do_not_infer: "Do not treat mapped position as exact."
+
+  low_strength_zone:
+    label: "Low-strength zone"
+    meaning: "Localised crushed/weak material likely."
+    why: "Fault/fracture/shear zone."
+    next_step: "Boreholes/geophysics across the zone."
+    do_not_infer: "Do not infer zone width or strength."
+
+  groundwater_pathway:
+    label: "Groundwater pathway"
+    meaning: "Structure may concentrate or conduct groundwater."
+    why: "Fault/fracture zone."
+    next_step: "Assess inflow; monitor groundwater."
+    do_not_infer: "Do not infer inflow rate."
+
+  slope_tunnel_risk:
+    label: "Slope / tunnel risk"
+    meaning: "Structure may adversely affect slopes/underground works."
+    why: "Fault/fracture zone."
+    next_step: "Engineering-geological assessment of influence zone."
+    do_not_infer: "Do not infer stability or support requirements."
+
+  contamination_screening:
+    label: "Contamination screening relevant"
+    meaning: "Reclaimed/industrial fill may contain contaminants."
+    why: "Reclaimed land / fill."
+    next_step: "Environmental site assessment / soil sampling."
+    do_not_infer: "Do not infer contamination presence or absence."
+
+  unclassified:
+    label: "Unclassified unit"
+    meaning: "No rule matched; engineering meaning not yet assigned."
+    why: "Attributes insufficient/ambiguous."
+    next_step: "Manual review of legend/explanation."
+    do_not_infer: "Do not assign behaviour until reviewed."
+
+  needs_manual_review:
+    label: "Needs manual review"
+    meaning: "Flagged for human geotechnical review before use."
+    why: "Low confidence, ambiguity, or large low-confidence area."
+    next_step: "Geotechnical engineer to review and confirm/override."
+    do_not_infer: "Do not use the auto-interpretation as-is."

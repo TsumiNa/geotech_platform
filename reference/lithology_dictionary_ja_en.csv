@@ -1,0 +1,40 @@
+term_ja,term_en,category,grain_or_rock,engineering_note
+礫,gravel,soil,coarse,Granular; density/saturation control behaviour
+砂,sand,soil,coarse,Granular; loose saturated sand liquefaction-screening relevant
+砂礫,sand and gravel,soil,coarse,Granular mixture; generally competent if dense
+シルト,silt,soil,fine,Fine-grained; compressibility/low strength possible
+泥,mud,soil,fine,Fine-grained cohesive; soft/compressible possible
+粘土,clay,soil,fine,Cohesive; compressibility and low strength screening
+泥炭,peat,soil,organic,Organic; very high compressibility and settlement screening
+腐植土,humic soil,soil,organic,Organic; high compressibility
+ローム,loam (volcanic ash),soil,volcanic,Kanto Loam; high void ratio and moisture sensitive
+火山灰,volcanic ash,soil,volcanic,Air-fall ash; moisture sensitive
+スコリア,scoria,soil,volcanic,Vesicular pyroclastic; crushability/variable
+軽石,pumice,soil,volcanic,Lightweight pyroclastic; crushable
+凝灰岩,tuff,rock,pyroclastic,Variable induration; weathering/slaking screening
+凝灰質,tuffaceous,rock,pyroclastic,Tuff-bearing; variable strength
+火砕流堆積物,pyroclastic flow deposit,rock,pyroclastic,Variable welding/strength
+泥岩,mudstone,rock,sedimentary,Weak rock; slaking and weathering screening
+頁岩,shale,rock,sedimentary,Weak rock; fissile; slaking screening
+シルト岩,siltstone,rock,sedimentary,Weak rock; weathering screening
+砂岩,sandstone,rock,sedimentary,Weak-moderate rock; variable cementation
+砂泥互層,alternating sandstone and mudstone,rock,sedimentary,Differential durability; bedding control
+礫岩,conglomerate,rock,sedimentary,Variable cementation
+石灰岩,limestone,rock,sedimentary,Solution/karst features possible
+チャート,chert,rock,sedimentary,Hard; brittle; jointing control
+花崗岩,granite,rock,igneous,Hard crystalline; weathered mantle and corestones possible
+閃緑岩,diorite,rock,igneous,Hard crystalline
+斑れい岩,gabbro,rock,igneous,Hard crystalline
+玄武岩,basalt,rock,igneous,Hard; jointing/columnar possible
+安山岩,andesite,rock,igneous,Hard-moderate; weathering possible
+片麻岩,gneiss,rock,metamorphic,Hard; foliation control
+結晶片岩,crystalline schist,rock,metamorphic,Foliation/schistosity control
+蛇紋岩,serpentinite,rock,metamorphic,Sheared/weak zones possible; slope sensitivity
+埋立土,reclaimed soil,artificial,fill,Human-placed; variable; thickness unknown
+埋立地,reclaimed land,artificial,fill,Reclaimed ground; settlement/liquefaction/contamination screening
+盛土,embankment fill,artificial,fill,Placed fill; compaction/age unknown
+沖積層,alluvium,soil,mixed,Holocene interbedded soils
+段丘堆積物,terrace deposits,soil,mixed,Pleistocene; generally firmer; cobbles possible
+段丘礫層,terrace gravel,soil,coarse,Dense gravel; refusal/cobbles possible
+断層,fault,structure,fault,Localised weak/crushed zone; groundwater pathway
+破砕帯,fracture/crush zone,structure,fault,Low-strength crushed rock; high uncertainty

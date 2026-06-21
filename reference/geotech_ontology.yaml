@@ -1,0 +1,339 @@
+# =============================================================================
+# geotech_ontology.yaml  --  FIRST-VERSION geotechnical screening ontology
+# -----------------------------------------------------------------------------
+# Purpose: a controlled vocabulary that maps raw geological map units to
+#          engineering-relevant ground categories for DESKTOP SCREENING and
+#          INVESTIGATION PLANNING only.
+#
+# SCOPE & LIMITATIONS (read before use):
+#   * This ontology expresses PLAUSIBLE ground-condition HYPOTHESES, not facts.
+#   * It does NOT provide final design parameters. It must never be read as a
+#     bearing capacity, pile length, settlement magnitude, liquefaction factor
+#     of safety, or slope-stability result.
+#   * Geology maps show surface / near-surface distribution at 1:50,000. Actual
+#     ground conditions at a site depend on depth, thickness, groundwater, and
+#     local variability that only site investigation and boreholes can confirm.
+#   * Every class therefore carries `do_not_infer` and `main_uncertainties`.
+#
+# This is a v1 authored from: (1) the actual attributes in the three GSJ
+# 1:50,000 sheets (Hachioji 08062, Tokyo-Seinambu 08063, Yokohama 08074),
+# (2) the legend / explanation material, and (3) general geotechnical reasoning.
+# It is intended to be revised by a geotechnical engineer (manual review).
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  status: "draft-first-version"
+  created_for: "GSJ 1:50,000 Tokyo-area geology -> geotechnical screening prototype"
+  intended_use: "desktop screening, investigation planning, hypothesis generation"
+  not_intended_use: "final design, parameter selection, safety verification"
+  review_required: true
+
+# Material families are coarse engineering groupings used for fast filtering.
+material_families:
+  - artificial_ground
+  - soft_soil
+  - alluvial_soil
+  - terrace_soil
+  - volcanic_ash_soil
+  - pyroclastic_ground
+  - weak_rock
+  - hard_rock
+  - fault_fracture
+  - mixed_or_unknown
+
+classes:
+
+  young_unconsolidated_soil:
+    engineering_material_family: soft_soil
+    engineering_ground_type: "Young (Holocene) unconsolidated soil"
+    description: >
+      Geologically very young, normally- to under-consolidated soils such as
+      alluvial muds, organic/peaty soils, swamp and back-marsh deposits. Often
+      soft, compressible and saturated near rivers, former channels and lowlands.
+    expected_materials: ["soft clay", "silt", "organic soil / peat", "loose sand"]
+    typical_ground_behavior: >
+      Potentially soft and compressible; low strength; possible large/long-term
+      settlement under fill or foundations; possible loose saturated sand.
+    typical_ground_profile_hint: >
+      Soft/loose surface soils possibly underlain by firmer alluvial or terrace
+      deposits; rockhead generally deep. Thickness highly variable.
+    settlement_relevance: high
+    liquefaction_relevance: high
+    groundwater_relevance: high
+    excavation_relevance: high
+    slope_relevance: low
+    rock_engineering_relevance: low
+    recommended_investigation:
+      - "Boreholes with SPT and undisturbed sampling for compressible layers"
+      - "Groundwater level monitoring / piezometers"
+      - "Consolidation (oedometer) testing if settlement-sensitive structure"
+      - "CPTu profiling and liquefaction screening where saturated sand present"
+    do_not_infer:
+      - "Do not infer settlement magnitude or time."
+      - "Do not infer a liquefaction factor of safety."
+      - "Do not infer allowable bearing pressure."
+    main_uncertainties:
+      - "Soft-layer thickness unknown from map alone."
+      - "Organic content and groundwater depth unknown."
+
+  artificial_fill_reclaimed_ground:
+    engineering_material_family: artificial_ground
+    engineering_ground_type: "Artificial fill / reclaimed ground"
+    description: >
+      Human-placed fill, embankment, and reclaimed land (Japanese 盛土 / 埋立 /
+      埋立地 / 埋立土). Composition, compaction and age are typically
+      heterogeneous and poorly documented.
+    expected_materials: ["mixed fill", "sand", "gravel", "soil", "possible debris/waste"]
+    typical_ground_behavior: >
+      Highly variable strength and compressibility; possible ongoing settlement;
+      loose saturated sandy fill may be liquefiable; possible buried obstructions
+      and environmental/contamination concerns; unknown thickness over natural ground.
+    typical_ground_profile_hint: >
+      Fill of unknown thickness over (often soft) natural soils; fill/natural
+      interface is a key unknown.
+    settlement_relevance: high
+    liquefaction_relevance: high
+    groundwater_relevance: high
+    excavation_relevance: high
+    slope_relevance: medium
+    rock_engineering_relevance: low
+    recommended_investigation:
+      - "Boreholes to prove fill thickness and the fill/natural-ground interface"
+      - "Records search for placement age, method and source material"
+      - "Environmental/contamination screening for reclaimed/industrial land"
+      - "Liquefaction screening for loose saturated sandy fill"
+    do_not_infer:
+      - "Do not assume engineered/compacted fill unless records confirm it."
+      - "Do not infer fill thickness, contamination, or bearing capacity."
+    main_uncertainties:
+      - "Fill composition, age, compaction and thickness unknown from map."
+      - "Presence of buried structures/contaminants unknown."
+
+  alluvial_lowland_deposits:
+    engineering_material_family: alluvial_soil
+    engineering_ground_type: "Alluvial lowland deposits"
+    description: >
+      Holocene river / floodplain / fan / channel deposits (沖積層, 現河床, 谷底,
+      扇状地, 自然堤防) of interbedded gravel, sand, silt and clay.
+    expected_materials: ["gravel", "sand", "silt", "clay (interbedded)"]
+    typical_ground_behavior: >
+      Variable: dense gravels can be competent while interbedded silt/clay can be
+      compressible and saturated sand can be liquefiable. Strong lateral and
+      vertical variability.
+    typical_ground_profile_hint: >
+      Interlayered granular and cohesive soils; shallow groundwater common in
+      lowlands; competent gravel layers possible.
+    settlement_relevance: medium
+    liquefaction_relevance: high
+    groundwater_relevance: high
+    excavation_relevance: medium
+    slope_relevance: low
+    rock_engineering_relevance: low
+    recommended_investigation:
+      - "Boreholes with SPT to characterise interbedded layers"
+      - "Groundwater monitoring"
+      - "Grain-size / liquefaction screening for saturated sands"
+    do_not_infer:
+      - "Do not infer which layer governs design without boreholes."
+      - "Do not infer bearing or liquefaction results."
+    main_uncertainties:
+      - "Layer sequence and continuity unknown from map."
+      - "Groundwater depth unknown."
+
+  terrace_deposits:
+    engineering_material_family: terrace_soil
+    engineering_ground_type: "River / marine terrace deposits"
+    description: >
+      Pleistocene terrace deposits (段丘堆積物, 段丘礫層, 上総層群上位の段丘) of
+      gravel, sand and clay, usually overconsolidated relative to Holocene soils.
+    expected_materials: ["gravel", "cobbles", "sand", "stiff clay"]
+    typical_ground_behavior: >
+      Generally firmer/denser than Holocene soils; abrupt layer changes; cobbles
+      or boulders can hinder piling/boring; perched water on clay layers possible.
+    typical_ground_profile_hint: >
+      Often loam/ash cover over dense terrace gravel/sand over older deposits;
+      relatively favourable but variable.
+    settlement_relevance: low
+    liquefaction_relevance: medium
+    groundwater_relevance: medium
+    excavation_relevance: medium
+    slope_relevance: medium
+    rock_engineering_relevance: low
+    recommended_investigation:
+      - "Boreholes with SPT; note refusal/cobble layers"
+      - "Check for perched water above clay layers"
+    do_not_infer:
+      - "Do not infer density or bearing values from map age alone."
+    main_uncertainties:
+      - "Cobble/boulder content and cementation unknown."
+      - "Perched-water conditions unknown."
+
+  volcanic_ash_loam:
+    engineering_material_family: volcanic_ash_soil
+    engineering_ground_type: "Volcanic ash soil / Kanto Loam / tephra"
+    description: >
+      Quaternary air-fall volcanic ash and loam (関東ローム, ローム層, 火山灰,
+      スコリア, 軽石) blanketing terraces and uplands in the Kanto region.
+    expected_materials: ["clayey volcanic ash (loam)", "scoria", "pumice"]
+    typical_ground_behavior: >
+      High natural water content and void ratio; moisture-sensitive; sensitive
+      structure that can lose strength on remoulding; variable thickness; slope
+      surface-failure and erosion susceptibility when disturbed/saturated.
+    typical_ground_profile_hint: >
+      Loam/ash mantle (often a few m to >10 m) over terrace gravel or older
+      deposits; thickness varies with landform.
+    settlement_relevance: medium
+    liquefaction_relevance: low
+    groundwater_relevance: medium
+    excavation_relevance: medium
+    slope_relevance: high
+    rock_engineering_relevance: low
+    recommended_investigation:
+      - "Boreholes/test pits to log loam thickness and underlying contact"
+      - "Natural water content, Atterberg, and (if relevant) sensitivity tests"
+      - "Slope surface-stability and erosion assessment for cut/fill"
+    do_not_infer:
+      - "Do not infer loam thickness or collapse behaviour from map."
+    main_uncertainties:
+      - "Thickness and degree of weathering vary strongly with landform."
+      - "Moisture state at time of works unknown."
+
+  pyroclastic_tuffaceous_ground:
+    engineering_material_family: pyroclastic_ground
+    engineering_ground_type: "Pyroclastic / tuffaceous ground"
+    description: >
+      Tuff, tuffaceous and pyroclastic deposits (凝灰岩, 火砕流, 凝灰質) ranging
+      from weakly indurated to rock-like, with strongly variable strength.
+    expected_materials: ["tuff", "tuffaceous sandstone/mudstone", "pyroclastic deposits"]
+    typical_ground_behavior: >
+      Strength varies from soil-like to weak rock; weathering and slaking can
+      degrade exposed material; perched water along contacts possible.
+    typical_ground_profile_hint: >
+      Variable induration with depth; weathered zone over fresher material.
+    settlement_relevance: medium
+    liquefaction_relevance: low
+    groundwater_relevance: medium
+    excavation_relevance: medium
+    slope_relevance: high
+    rock_engineering_relevance: medium
+    recommended_investigation:
+      - "Rotary core boreholes; record weathering grade and core recovery/RQD"
+      - "Slake-durability and strength testing"
+      - "Slope/excavation stability assessment"
+    do_not_infer:
+      - "Do not infer rock strength class from the map unit alone."
+    main_uncertainties:
+      - "Degree of induration and weathering unknown from map."
+
+  weak_sedimentary_rock:
+    engineering_material_family: weak_rock
+    engineering_ground_type: "Weak sedimentary rock (mudstone/siltstone/sandstone)"
+    description: >
+      Neogene and older weakly to moderately consolidated sedimentary rocks
+      (泥岩, 頁岩, シルト岩, 砂岩, 砂泥互層; e.g. 上総層群, 三浦層群).
+    expected_materials: ["mudstone", "shale", "siltstone", "sandstone", "alternating beds"]
+    typical_ground_behavior: >
+      Mudstone/shale can slake and soften on exposure to air/water; strength and
+      rockhead vary with weathering; bedding/structure can control excavation and
+      slope behaviour; differential durability in alternating beds.
+    typical_ground_profile_hint: >
+      Soil/weathered-rock cover over progressively fresher rock; rockhead depth
+      variable.
+    settlement_relevance: low
+    liquefaction_relevance: low
+    groundwater_relevance: medium
+    excavation_relevance: high
+    slope_relevance: high
+    rock_engineering_relevance: high
+    recommended_investigation:
+      - "Rotary core boreholes; log weathering grade, RQD, bedding/discontinuities"
+      - "Slake-durability, point-load / UCS testing"
+      - "Slope and excavation stability assessment accounting for bedding"
+    do_not_infer:
+      - "Do not infer rock strength, rockhead depth, or slope stability result."
+    main_uncertainties:
+      - "Weathering profile and rockhead depth unknown from map."
+      - "Discontinuity orientation/spacing unknown."
+
+  hard_crystalline_rock:
+    engineering_material_family: hard_rock
+    engineering_ground_type: "Hard crystalline / strong rock"
+    description: >
+      Strong igneous/metamorphic or strongly indurated rock (花崗岩 granite,
+      chert, strongly lithified units) with a possible weathered mantle.
+    expected_materials: ["granite", "crystalline rock", "hard indurated rock", "weathered residual soil"]
+    typical_ground_behavior: >
+      Generally competent when fresh; weathered/residual zone near surface can be
+      much weaker; jointing/fracturing controls excavatability and slope/tunnel
+      behaviour; corestones possible in weathered granite.
+    typical_ground_profile_hint: >
+      Residual soil / weathered rock over fresh rock; rockhead and weathering
+      depth variable.
+    settlement_relevance: low
+    liquefaction_relevance: low
+    groundwater_relevance: low
+    excavation_relevance: high
+    slope_relevance: medium
+    rock_engineering_relevance: high
+    recommended_investigation:
+      - "Rotary core boreholes; weathering grade, RQD, joint survey"
+      - "Assess rippability/excavatability and corestone potential"
+    do_not_infer:
+      - "Do not infer rockhead depth or rock-mass quality from map."
+    main_uncertainties:
+      - "Weathering depth and jointing unknown from map."
+
+  fault_fracture_zone:
+    engineering_material_family: fault_fracture
+    engineering_ground_type: "Fault / fracture / shear zone"
+    description: >
+      Mapped faults and fracture/shear zones (断層, 破砕帯) and their influence
+      corridors. Represented on the maps mainly as lines (geo_L), so polygons
+      near these lines should be flagged rather than reclassified.
+    expected_materials: ["fault gouge", "sheared/crushed rock", "breccia"]
+    typical_ground_behavior: >
+      Localised low-strength, crushed and weathered material; preferential
+      groundwater pathways; high spatial uncertainty; possible influence on slope
+      and tunnel stability.
+    typical_ground_profile_hint: >
+      Anomalous, locally weak/crushed ground and groundwater concentration along
+      the structure.
+    settlement_relevance: medium
+    liquefaction_relevance: low
+    groundwater_relevance: high
+    excavation_relevance: high
+    slope_relevance: high
+    rock_engineering_relevance: high
+    recommended_investigation:
+      - "Targeted boreholes / geophysics across the mapped structure"
+      - "Groundwater inflow assessment"
+      - "Engineering-geological assessment of zone width and influence"
+    do_not_infer:
+      - "Do not infer exact location, width, or activity of the structure."
+    main_uncertainties:
+      - "Position/width on a 1:50,000 map is approximate."
+      - "Activity and current behaviour unknown."
+
+  mixed_or_uncertain_geology:
+    engineering_material_family: mixed_or_unknown
+    engineering_ground_type: "Mixed / uncertain geology (needs review)"
+    description: >
+      Units that could not be confidently assigned: missing or ambiguous
+      lithology/age, conflicting indicators, or multiple plausible classes.
+    expected_materials: ["unknown / mixed"]
+    typical_ground_behavior: "Unknown - requires manual review and likely investigation."
+    typical_ground_profile_hint: "Insufficient information to hypothesise a profile."
+    settlement_relevance: unknown
+    liquefaction_relevance: unknown
+    groundwater_relevance: unknown
+    excavation_relevance: unknown
+    slope_relevance: unknown
+    rock_engineering_relevance: unknown
+    recommended_investigation:
+      - "Manual review of the source legend and explanation sheet"
+      - "Scope investigation once a plausible class is established"
+    do_not_infer:
+      - "Do not assign engineering behaviour until reviewed."
+    main_uncertainties:
+      - "Source attributes insufficient or contradictory."

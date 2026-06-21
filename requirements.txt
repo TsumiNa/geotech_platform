@@ -1,0 +1,20 @@
+# v2 platform requirements.
+#
+# CORE pipeline + inference run on the Python standard library + PyYAML only
+# (pure-Python shapefile/GeoPackage readers; no geopandas/GDAL needed).
+#
+#   pyyaml   : REQUIRED (knowledge base + ontology are YAML).
+#   pillow   : OPTIONAL — renders JPEG2000 figures to PNG previews for the app.
+#   pandas   : OPTIONAL — Streamlit app tables.
+#   streamlit: OPTIONAL — the drill-down demo UI.
+#
+# Install core:    pip install pyyaml pillow
+# Install all:     pip install -r requirements.txt
+#
+# Raw geology data is NOT bundled; it is read from ../sample_geology_reports
+# (or set the env var GEO_RAW_ROOT to another location).
+
+pyyaml>=6.0
+pillow>=9.0
+pandas>=2.0
+streamlit>=1.30

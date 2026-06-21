@@ -1,0 +1,113 @@
+# =============================================================================
+# L4_recommendations.yaml  --  screening considerations & investigation per ground type
+# -----------------------------------------------------------------------------
+# Each entry gives, PER ENGINEERING APPLICATION, a screening consideration (a
+# hypothesis + what to investigate), never a design conclusion. The engine emits
+# only the applications relevant to the ground type, plus recommended
+# investigation and residual uncertainty.
+#
+# Principle: "may be relevant -> investigate". No bearing capacity, pile length,
+# settlement magnitude, liquefaction factor of safety, or slope FoS is stated.
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  output_rule: "Considerations are conditional prompts, not results."
+
+ground_types:
+
+  young_unconsolidated_soil:
+    applications:
+      shallow_foundation: "Low bearing & large/long settlement plausible on soft soil — verify with boreholes + consolidation tests; ground improvement or deep foundations may be needed."
+      deep_foundation: "Piles likely required to reach a competent stratum; confirm bearing-layer depth and negative skin friction potential from settlement."
+      excavation: "Soft, wet, low-strength faces; dewatering & support likely; base heave/instability screening."
+      slope_embankment: "Embankments on soft ground: stability & settlement screening; staged construction may be needed."
+      liquefaction: "Loose saturated sandy interbeds — perform formal liquefaction screening (CPTu/SPT + groundwater)."
+      groundwater: "Shallow water table likely; control during construction."
+    recommended_investigation: ["Boreholes with SPT + undisturbed sampling", "Oedometer/consolidation tests", "CPTu profiling", "Piezometers"]
+    residual_uncertainty: "Soft-layer thickness, organic content and groundwater depth unknown from map."
+
+  artificial_fill_reclaimed_ground:
+    applications:
+      shallow_foundation: "Do NOT assume engineered fill; bearing unknown — prove fill quality/thickness or found below fill."
+      deep_foundation: "Consider founding through fill into natural competent ground; obstructions possible."
+      excavation: "Unknown material & obstructions; possible contamination handling requirements."
+      liquefaction: "Loose saturated sandy fill (esp. hydraulic reclamation) — high-priority liquefaction screening."
+      groundwater: "Possible perched/variable water; coastal reclamation may be saline/aggressive."
+      environmental: "Contamination & aggressive-ground (sulfate/chloride) screening for reclaimed/industrial land."
+    recommended_investigation: ["Boreholes proving fill thickness & natural interface", "Records search (age/method/source)", "Environmental sampling", "Liquefaction screening"]
+    residual_uncertainty: "Fill composition, age, compaction, thickness, and contamination unknown from map."
+
+  alluvial_lowland_deposits:
+    applications:
+      shallow_foundation: "Bearing depends on which interbed governs — prove layer sequence; differential settlement across facies."
+      deep_foundation: "Identify continuous competent bearing layer (often dense gravel) by boreholes."
+      excavation: "Mixed faces; dewatering in granular layers; support of soft layers."
+      liquefaction: "Saturated loose sand layers — liquefaction screening."
+      groundwater: "Shallow/variable groundwater; confined layers possible."
+    recommended_investigation: ["Closely logged boreholes with SPT", "Grain-size for liquefaction", "Groundwater monitoring"]
+    residual_uncertainty: "Layer continuity and governing layer unknown from map."
+
+  terrace_deposits:
+    applications:
+      shallow_foundation: "Often a favourable bearing stratum (dense, overconsolidated) — confirm density & continuity; watch clay caps."
+      deep_foundation: "May serve as bearing layer; cobbles/boulders affect installation method."
+      excavation: "Generally stable granular faces; cobbles complicate trenching; perched water on clay."
+      slope_embankment: "Generally competent; check clay interbeds for slope seepage."
+      groundwater: "Perched water above clay layers; otherwise free-draining gravel."
+    recommended_investigation: ["Boreholes with SPT; log refusal/cobble layers", "Identify clay caps & perched water"]
+    residual_uncertainty: "Cobble/boulder content, cementation and clay-cap distribution unknown from map."
+
+  volcanic_ash_loam:
+    applications:
+      shallow_foundation: "Low density/high water content — settlement & moisture-sensitivity screening; protect from disturbance."
+      excavation: "Stands in cut when intact but softens when wet/disturbed; protect exposures."
+      slope_embankment: "Cut-slope surface failure & erosion susceptibility; drainage important; reuse as fill needs moisture control."
+      groundwater: "Perched water possible; high water content in situ."
+    recommended_investigation: ["Boreholes/test pits to log loam thickness & contact", "Natural water content / Atterberg", "Sensitivity / collapse screening", "Slope surface-stability & erosion assessment"]
+    residual_uncertainty: "Thickness, weathering, and in-situ moisture state vary with landform; unknown from map."
+
+  pyroclastic_tuffaceous_ground:
+    applications:
+      shallow_foundation: "Strength ranges soil-like to weak rock — prove with drilling/testing before relying on it."
+      excavation: "Variable rippability; weathered/slaking material degrades on exposure."
+      slope_embankment: "Bedding/weathering-controlled instability; perched water on contacts."
+      tunnel_underground: "Variable strength & water; characterise weathering/induration."
+    recommended_investigation: ["Rotary core boreholes; weathering grade, RQD, recovery", "Slake-durability & strength tests", "Slope/excavation assessment"]
+    residual_uncertainty: "Induration & weathering degree unknown from map."
+
+  weak_sedimentary_rock:
+    applications:
+      shallow_foundation: "Can be a good bearing rock when fresh, but weathered/softened zones reduce capacity — prove rockhead & weathering."
+      deep_foundation: "Socketed foundations possible; confirm fresh-rock depth and softening."
+      excavation: "Mudstone slakes & softens on exposure — protect faces, sequence works; bedding-controlled stability."
+      slope_embankment: "Bedding orientation controls cut-slope stability; slaking of mudstone in faces; drainage."
+      tunnel_underground: "Squeezing/softening of mudstone & water along bedding — characterise."
+    recommended_investigation: ["Rotary core boreholes; RQD, weathering, bedding/discontinuities", "Slake-durability, point-load/UCS", "Bedding-aware slope & excavation assessment"]
+    residual_uncertainty: "Weathering profile, rockhead depth, and discontinuity orientation unknown from map."
+
+  hard_crystalline_rock:
+    applications:
+      shallow_foundation: "Excellent bearing on fresh rock; weathered mantle near surface is much weaker — prove rockhead."
+      deep_foundation: "Rock socket feasible; corestones complicate boring/piling in weathered profile."
+      excavation: "Hard fresh rock may need ripping/blasting; weathered zone excavatable; corestones."
+      slope_rock: "Joint/discontinuity orientation controls rock-slope stability."
+      tunnel_underground: "Generally favourable in fresh rock; fracture zones & water are key risks."
+    recommended_investigation: ["Rotary core boreholes; weathering grade, RQD, joint survey", "Excavatability/corestone assessment"]
+    residual_uncertainty: "Weathering depth, corestone distribution and jointing unknown from map."
+
+  fault_fracture_zone:
+    applications:
+      foundation: "Localized weak/variable ground — avoid or specifically characterise; differential behaviour."
+      excavation: "Crushed/weak material & concentrated water; instability."
+      slope_rock: "Adverse structure; reduced strength along the zone."
+      tunnel_underground: "Major risk: low strength, water inflow, support demand at the zone."
+      groundwater: "Preferential pathway or barrier — assess inflow/compartmentalisation."
+    recommended_investigation: ["Targeted boreholes/geophysics across the structure", "Groundwater inflow assessment", "Engineering-geological zone-width & influence assessment"]
+    residual_uncertainty: "Position, width and activity approximate at 1:50,000."
+
+  mixed_or_uncertain_geology:
+    applications:
+      review: "No reliable interpretation — manual review of source legend & explanation before any engineering use."
+    recommended_investigation: ["Manual review of legend/explanation", "Scope investigation once a plausible class is established"]
+    residual_uncertainty: "Source attributes insufficient or contradictory."

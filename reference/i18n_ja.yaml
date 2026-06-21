@@ -1,0 +1,188 @@
+# =============================================================================
+# i18n_ja.yaml  --  English <-> Japanese display terms for the screening tool
+# -----------------------------------------------------------------------------
+# Japanese terms use vocabulary common in the Japanese geotechnical engineering
+# community (地盤工学 / 応用地質). These are DISPLAY labels for the coded values
+# in the ontology and rules; the underlying codes (e.g. weak_sedimentary_rock)
+# are unchanged so the database and logic stay language-neutral.
+#
+# Reviewers: please refine any term that does not match your in-house usage. The
+# `note_ja` fields give short clarifying notes where a term is approximate.
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  status: "draft-first-version (review Japanese terms)"
+  languages: ["en", "ja"]
+
+# --- engineering ground types (geotech_ontology.yaml classes) ---------------
+ground_types:
+  young_unconsolidated_soil:
+    en: "Young (Holocene) unconsolidated soil"
+    ja: "完新世未固結土（軟弱土）"
+    note_ja: "いわゆる軟弱地盤。沖積層中の有機質土・粘性土・緩い砂を含む。"
+  artificial_fill_reclaimed_ground:
+    en: "Artificial fill / reclaimed ground"
+    ja: "人工地盤（盛土・埋立地）"
+    note_ja: "盛土・埋立など人工的に形成された地盤。"
+  alluvial_lowland_deposits:
+    en: "Alluvial lowland deposits"
+    ja: "沖積低地堆積物"
+    note_ja: "完新統の河川・氾濫原・扇状地・谷底堆積物（砂礫～粘性土の互層）。"
+  terrace_deposits:
+    en: "River / marine terrace deposits"
+    ja: "段丘堆積物（洪積層）"
+    note_ja: "更新統の河成・海成段丘堆積物。一般に締まった砂礫・硬質粘土。"
+  volcanic_ash_loam:
+    en: "Volcanic ash soil / Kanto Loam / tephra"
+    ja: "火山灰質土（関東ローム）"
+    note_ja: "関東ローム・テフラ。高含水比・高間隙比で含水比に敏感。"
+  pyroclastic_tuffaceous_ground:
+    en: "Pyroclastic / tuffaceous ground"
+    ja: "火砕物・凝灰質地盤"
+    note_ja: "凝灰岩・火砕流堆積物等。固結度・強度のばらつきが大きい。"
+  weak_sedimentary_rock:
+    en: "Weak sedimentary rock (mudstone/siltstone/sandstone)"
+    ja: "堆積軟岩（泥岩・砂岩・シルト岩等）"
+    note_ja: "新第三系等の軟岩。泥岩はスレーキングに注意。"
+  hard_crystalline_rock:
+    en: "Hard crystalline / strong rock"
+    ja: "硬岩（結晶質岩）"
+    note_ja: "花崗岩等。表層風化帯・節理の影響に注意。"
+  fault_fracture_zone:
+    en: "Fault / fracture / shear zone"
+    ja: "断層・破砕帯"
+    note_ja: "断層・破砕帯。位置・幅は1/5万図では概略。"
+  mixed_or_uncertain_geology:
+    en: "Mixed / uncertain geology (needs review)"
+    ja: "混在・不確定地質（要確認）"
+    note_ja: "属性不足等で分類できない単位。手動レビューが必要。"
+
+# --- material families ------------------------------------------------------
+material_families:
+  artificial_ground: {en: "Artificial ground", ja: "人工地盤"}
+  soft_soil: {en: "Soft soil", ja: "軟弱土"}
+  alluvial_soil: {en: "Alluvial soil", ja: "沖積土"}
+  terrace_soil: {en: "Terrace soil", ja: "段丘堆積物（洪積土）"}
+  volcanic_ash_soil: {en: "Volcanic ash soil", ja: "火山灰質土"}
+  pyroclastic_ground: {en: "Pyroclastic ground", ja: "火砕物地盤"}
+  weak_rock: {en: "Weak rock", ja: "軟岩"}
+  hard_rock: {en: "Hard rock", ja: "硬岩"}
+  fault_fracture: {en: "Fault / fracture zone", ja: "断層・破砕帯"}
+  mixed_or_unknown: {en: "Mixed / unknown", ja: "混在・不明"}
+
+# --- confidence -------------------------------------------------------------
+confidence:
+  high: {en: "high", ja: "高"}
+  medium: {en: "medium", ja: "中"}
+  low: {en: "low", ja: "低"}
+  very_low: {en: "very low", ja: "非常に低い"}
+
+# --- screening risk flags (engineering_risk_dictionary.yaml) ----------------
+risk_flags:
+  variable_fill: {en: "Variable artificial fill", ja: "盛土の不均質性"}
+  unknown_fill_thickness: {en: "Unknown fill thickness", ja: "盛土層厚不明"}
+  settlement_screening: {en: "Settlement screening relevant", ja: "沈下の検討（スクリーニング）"}
+  soft_compressible_soil: {en: "Soft / compressible soil possible", ja: "軟弱・圧密性土の可能性"}
+  organic_soil: {en: "Organic soil possible", ja: "有機質土（腐植土）の可能性"}
+  liquefaction_screening: {en: "Liquefaction screening relevant", ja: "液状化の検討（スクリーニング）"}
+  shallow_groundwater: {en: "Shallow groundwater likely", ja: "浅い地下水位の可能性"}
+  interbedded_variability: {en: "Interbedded layer variability", ja: "互層による不均質性"}
+  abrupt_layer_change: {en: "Abrupt layer changes", ja: "層相の急変"}
+  cobbles_boulders_possible: {en: "Cobbles / boulders possible", ja: "玉石・転石の可能性"}
+  perched_water_possible: {en: "Perched water possible", ja: "宙水の可能性"}
+  moisture_sensitive: {en: "Moisture-sensitive soil", ja: "含水比に敏感な土"}
+  high_void_ratio: {en: "High void ratio soil", ja: "高間隙比（鋭敏な構造）"}
+  thickness_uncertainty: {en: "Thickness uncertainty", ja: "層厚の不確実性"}
+  slope_surface_erosion: {en: "Slope surface stability / erosion", ja: "法面表層崩壊・侵食"}
+  variable_strength: {en: "Variable strength", ja: "強度のばらつき"}
+  weathering_degradation: {en: "Weathering / degradation", ja: "風化による劣化"}
+  slaking: {en: "Slaking susceptibility", ja: "スレーキング（泥岩等の崩壊性）"}
+  variable_rockhead: {en: "Variable rockhead depth", ja: "岩盤上面（風化深度）の不確実性"}
+  bedding_controlled_slope_excavation: {en: "Bedding-controlled slope/excavation", ja: "層理に支配される斜面・掘削"}
+  slope_excavation_risk: {en: "Slope / excavation risk", ja: "斜面・掘削の不安定性"}
+  weathered_zone: {en: "Weathered zone near surface", ja: "表層風化帯"}
+  corestones_possible: {en: "Corestones possible", ja: "コアストーン（核石）の可能性"}
+  jointing_control: {en: "Jointing / discontinuity control", ja: "節理（不連続面）の影響"}
+  high_uncertainty: {en: "High spatial uncertainty", ja: "空間的不確実性が大きい"}
+  low_strength_zone: {en: "Low-strength zone", ja: "低強度帯"}
+  groundwater_pathway: {en: "Groundwater pathway", ja: "地下水の通り道"}
+  slope_tunnel_risk: {en: "Slope / tunnel risk", ja: "斜面・トンネルへの影響"}
+  contamination_screening: {en: "Contamination screening relevant", ja: "土壌汚染の検討（スクリーニング）"}
+  unclassified: {en: "Unclassified unit", ja: "未分類"}
+  needs_manual_review: {en: "Needs manual review", ja: "要手動レビュー"}
+
+# --- UI strings -------------------------------------------------------------
+ui:
+  app_title: {en: "Geotechnical Geology Screening — Prototype", ja: "地質→地盤工学スクリーニング（プロトタイプ）"}
+  language_label: {en: "Language", ja: "言語"}
+  disclaimer:
+    en: >
+      Screening & investigation-planning tool only. Outputs are plausible
+      ground-condition hypotheses, risk flags and recommended investigation —
+      NOT bearing capacity, pile length, settlement, liquefaction safety factor,
+      or slope-stability results. Always confirm with site investigation.
+    ja: >
+      本ツールは机上スクリーニング・調査計画立案のための補助ツールです。出力は想定される
+      地盤条件の仮説・リスク要因・推奨調査であり、支持力・杭長・沈下量・液状化の安全率・
+      斜面安定計算結果などの設計値ではありません。必ず現地調査で確認してください。
+  pipeline_caption:
+    en: "Pipeline: Raw GSJ 1:50,000 geology → normalized geology → geotech ontology/rules → unit cards → query-ready geotechnical database."
+    ja: "処理の流れ：GSJ 5万分の1地質図 → 正規化地質 → 地盤工学オントロジー/ルール → ユニットカード → クエリ可能な地盤地質データベース"
+  tabs:
+    inventory: {en: "1 · Data inventory", ja: "1・データ目録"}
+    raw: {en: "2 · Raw geology", ja: "2・地質（正規化）"}
+    geotech: {en: "3 · Geotech layer", ja: "3・地盤工学レイヤ"}
+    point: {en: "4 · Point query", ja: "4・地点クエリ"}
+    corridor: {en: "5 · Corridor query", ja: "5・ルート（回廊）クエリ"}
+    review: {en: "6 · Manual review", ja: "6・要レビュー一覧"}
+  labels:
+    region: {en: "Region", ja: "図幅"}
+    ground_type: {en: "Ground type", ja: "地盤タイプ"}
+    material_family: {en: "Material family", ja: "材料グループ"}
+    features: {en: "Features", ja: "ポリゴン数"}
+    flagged_review: {en: "Flagged for review", ja: "要レビュー件数"}
+    confidence: {en: "Confidence", ja: "確信度"}
+    latitude: {en: "Latitude", ja: "緯度"}
+    longitude: {en: "Longitude", ja: "経度"}
+    start_lat: {en: "Start lat", ja: "起点 緯度"}
+    start_lon: {en: "Start lon", ja: "起点 経度"}
+    end_lat: {en: "End lat", ja: "終点 緯度"}
+    end_lon: {en: "End lon", ja: "終点 経度"}
+    buffer_m: {en: "Buffer (m)", ja: "バッファ幅（m）"}
+    query_point: {en: "Query point", ja: "地点を照会"}
+    query_corridor: {en: "Query corridor", ja: "ルートを照会"}
+    geology_at_point: {en: "Geology at point", ja: "地点の地質"}
+    geotech_interp: {en: "Geotechnical interpretation", ja: "地盤工学的解釈"}
+    distance_to_boundary: {en: "Distance to geology boundary", ja: "地質境界までの距離"}
+    risk_flags: {en: "Risk flags", ja: "地盤リスク要因"}
+    recommended_investigation: {en: "Recommended investigation", ja: "推奨調査"}
+    typical_profile: {en: "Typical ground-profile hint", ja: "想定される地層構成のヒント"}
+    interpretation_reason: {en: "Interpretation reasoning", ja: "解釈の根拠"}
+    uncertainty: {en: "Uncertainty & limitations", ja: "不確実性と制約"}
+    nearby_buffers: {en: "Nearby units by buffer", ja: "バッファ別の周辺ユニット"}
+    length: {en: "Length", ja: "延長"}
+    pct_by_type: {en: "% by ground type", ja: "地盤タイプ別の延長割合"}
+    transitions: {en: "Transitions", ja: "地質・地盤境界（遷移）"}
+    seg_risk: {en: "Segment risk flags", ja: "区間のリスク要因"}
+    invest_priorities: {en: "Investigation priorities", ja: "調査の優先度"}
+    candidate_zones: {en: "Candidate zones / transitions", ja: "想定地盤区分・遷移"}
+    raw_unit_name: {en: "Unit name", ja: "地質単元名"}
+    lithology: {en: "Lithology", ja: "岩相"}
+    age: {en: "Age", ja: "地質時代"}
+    code: {en: "Code", ja: "記号"}
+    source_sheet: {en: "Source sheet", ja: "出典図幅"}
+    needs_review_short: {en: "needs manual review", ja: "要手動レビュー"}
+    outside_extent: {en: "Outside mapped extent.", ja: "地質図の範囲外です。"}
+    no_data: {en: "No data — run the pipeline first.", ja: "データがありません。先にパイプラインを実行してください。"}
+    no_review: {en: "No units currently flagged.", ja: "現在、レビュー対象のユニットはありません。"}
+    review_count: {en: "unit cards flagged for review", ja: "件のユニットカードが要レビュー"}
+    review_workflow_caption:
+      en: "See data/reference/manual_review_guidelines.md for the review workflow."
+      ja: "レビュー手順は data/reference/manual_review_guidelines.md を参照してください。"
+    distinct_units: {en: "distinct unit(s)", ja: "個の異なるユニット"}
+    combined_risk: {en: "Combined risk flags", ja: "リスク要因（統合）"}
+    none: {en: "(none)", ja: "（なし）"}
+  outside_extent_msg:
+    en: "Point falls outside the mapped extent of the three GSJ sheets; no geology unit found."
+    ja: "地点は3図幅の範囲外のため、該当する地質単元は見つかりませんでした。"

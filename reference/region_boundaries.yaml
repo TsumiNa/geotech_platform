@@ -1,0 +1,68 @@
+meta:
+  version: 0.1.0
+  derivation: actual_data_bbox from geo_A polygons; nominal_quadrangle snapped to
+    the GSJ 1:50,000 grid (0.25 deg lon x 1/6 deg lat).
+  review_required: true
+  note: Edit nominal_quadrangle here if it does not match the official sheet frame;
+    region_for_point() uses these values.
+regions:
+- region: 08062
+  map_name_en: Hachioji
+  map_name_ja: 八王子
+  year: 2013
+  crs: EPSG:4612 (JGD2000 geographic, lon/lat)
+  n_polygons: 110
+  actual_data_bbox:
+    lon_min: 139.246811
+    lat_min: 35.503252
+    lon_max: 139.496797
+    lat_max: 35.669898
+  nominal_quadrangle:
+    lon_min: 139.25
+    lat_min: 35.5
+    lon_max: 139.5
+    lat_max: 35.666667
+    span_deg:
+      lon: 0.25
+      lat: 0.166667
+  review_status: auto-derived (please verify against the GSJ sheet frame)
+- region: 08063
+  map_name_en: Tokyo-Seinambu (SW Tokyo)
+  map_name_ja: 東京西南部
+  year: 1984
+  crs: EPSG:4612 (JGD2000 geographic, lon/lat)
+  n_polygons: 33
+  actual_data_bbox:
+    lon_min: 139.49679
+    lat_min: 35.503256
+    lon_max: 139.746776
+    lat_max: 35.669905
+  nominal_quadrangle:
+    lon_min: 139.5
+    lat_min: 35.5
+    lon_max: 139.75
+    lat_max: 35.666667
+    span_deg:
+      lon: 0.25
+      lat: 0.166667
+  review_status: auto-derived (please verify against the GSJ sheet frame)
+- region: 08074
+  map_name_en: Yokohama
+  map_name_ja: 横浜
+  year: 1982
+  crs: EPSG:4612 (JGD2000 geographic, lon/lat)
+  n_polygons: 37
+  actual_data_bbox:
+    lon_min: 139.496797
+    lat_min: 35.336611
+    lon_max: 139.746781
+    lat_max: 35.50326
+  nominal_quadrangle:
+    lon_min: 139.5
+    lat_min: 35.333333
+    lon_max: 139.75
+    lat_max: 35.5
+    span_deg:
+      lon: 0.25
+      lat: 0.166667
+  review_status: auto-derived (please verify against the GSJ sheet frame)

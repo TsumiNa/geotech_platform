@@ -1,0 +1,24 @@
+asset_id,content_label,caption,label_confidence,labelled_by,labelled_on
+08062_fig_036,location_index_map,Location / index map of the Hachioji–Sagamihara area showing administrative boundaries (八王子市・相模原市・町田市・横浜市 等),high,vision_review,2026-06-14
+08062_fig_002,topographic_relief_map,Topographic / shaded-relief base map of the sheet area (reservoir visible at right),high,vision_review,2026-06-14
+08062_fig_000,geological_map_plate,Detailed geological map plate (dense unit polygons and structure lines),high,vision_review,2026-06-14
+08062_fig_006,outcrop_photo_plate,"Plate of field outcrop / rock-exposure photographs (panels A–E, with scale bar/hammer)",high,vision_review,2026-06-14
+08062_fig_012,photomicrograph,Photomicrograph / rock thin-section close-up (dark grained rock),high,vision_review,2026-06-14
+08062_fig_017,photomicrograph,Photomicrograph (thin section; speckled mineral grains),high,vision_review,2026-06-14
+08062_fig_043,data_table_chronology,"Radiocarbon (14C) age table: formation, sample site, δ13C, 14C age, calibrated age (chronology of Musashino/Aoyagi/alluvial terrace deposits)",high,vision_review,2026-06-14
+08062_fig_009,data_table_analytical,Analytical / sample data table (multi-column; sample localities and measurements),high,vision_review,2026-06-14
+08062_fig_001,geological_map_plate,Geological map plate (continuation; dense unit polygons),medium,vision_inferred_group,2026-06-14
+08062_fig_003,topographic_or_geological_map_plate,Large map plate on same page as the relief/geology base maps,medium,vision_inferred_group,2026-06-14
+08062_fig_004,topographic_or_geological_map_plate,Large map plate on same page as the relief/geology base maps,medium,vision_inferred_group,2026-06-14
+08062_fig_005,topographic_or_geological_map_plate,Large map plate on same page as the relief/geology base maps,medium,vision_inferred_group,2026-06-14
+08062_fig_014,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_015,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_016,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_019,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_026,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_039,photomicrograph_or_outcrop_photo,Photo-sized plate in the petrography pages (25–30); likely photomicrograph/outcrop,medium,vision_inferred_group,2026-06-14
+08062_fig_017,photomicrograph,confirmed photomicrograph,high,vision_review,2026-06-14
+08062_fig_030,photomicrograph_or_outcrop_photo,Photo-sized plate on page ~29 (petrography); likely photomicrograph,medium,vision_inferred_group,2026-06-14
+08062_fig_032,photomicrograph_or_outcrop_photo,Photo-sized plate on page ~29 (petrography); likely photomicrograph,medium,vision_inferred_group,2026-06-14
+08062_fig_034,photomicrograph_or_outcrop_photo,Photo-sized plate on page ~29 (petrography); likely photomicrograph,medium,vision_inferred_group,2026-06-14
+08062_fig_035,photomicrograph_or_outcrop_photo,Photo-sized plate on page ~29 (petrography); likely photomicrograph,medium,vision_inferred_group,2026-06-14

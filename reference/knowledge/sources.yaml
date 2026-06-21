@@ -1,0 +1,92 @@
+# =============================================================================
+# sources.yaml  --  provenance registry for the knowledge base
+# -----------------------------------------------------------------------------
+# Every authored value in L1–L4 cites a source_ref id from this file. This makes
+# the indicative property ranges and mappings AUDITABLE and REPLACEABLE: when the
+# project's own textbook PDFs / standards are added later, update the value and
+# point source_ref at the new entry.
+#
+# Tiers:
+#   primary_literature  - peer-reviewed / official (GSJ, JGS, journals)
+#   industry_reference  - industry/technical association material
+#   engineering_judgement - authored screening estimate (clearly non-design)
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  note: >
+    Property values below are SCREENING-LEVEL indicative ranges from public
+    literature and standard references, NOT design values. They are starting
+    points for investigation planning and must be replaced by site-specific data.
+
+sources:
+
+  GSJ_MAP:
+    tier: primary_literature
+    title: "GSJ 1:50,000 geological maps & vector data (Hachioji 08062, Tokyo-Seinambu 08063, Yokohama 08074)"
+    publisher: "Geological Survey of Japan, AIST"
+    url: "https://www.gsj.jp/geology/index.html"
+    use: "Geology unit names, lithology, age, stratigraphy (L1)."
+
+  GSJ_BULL_KANTO_LOAM:
+    tier: primary_literature
+    title: "関東ロームの地質工学的研究 / 関東ローム台地の地盤構造と地耐力 (Bulletin of GSJ, vol.23)"
+    publisher: "Geological Survey of Japan"
+    url: "https://www.gsj.jp/data/bull-gsj/23-01_01.pdf"
+    use: "Kanto Loam engineering character: high water content, void ratio, structure."
+
+  JSCE_KANTO_LOAM_WC:
+    tier: primary_literature
+    title: "火山灰質粘性土の物理的性質に関する統計的性質 －関東ロームの自然含水比－ (JSCE)"
+    publisher: "Japan Society of Civil Engineers"
+    url: "http://library.jsce.or.jp/jsce/open/00035/2008/63-03/63-03-0467.pdf"
+    use: "Kanto Loam natural water content statistics."
+
+  ZENCHIREN_KANTO_LOAM:
+    tier: industry_reference
+    title: "関東ロームの工学的及び地域的な特性 (全地連 技術フォーラム 2018)"
+    publisher: "Japan Geotechnical Consultants Association (全地連)"
+    url: "https://www.zenchiren.or.jp/e-Forum/2018/PDF/2018_029.pdf"
+    use: "Kanto Loam regional engineering characteristics, indicative c/φ."
+
+  JGS_3811_ROCK:
+    tier: primary_literature
+    title: "JGS 3811:2011 岩盤の工学的分類方法 (Engineering classification of rock mass)"
+    publisher: "Japanese Geotechnical Society (地盤工学会)"
+    url: "https://www.jiban.or.jp/file/file/jgs3811_201107.pdf"
+    use: "Rock mass classification framework; weak-rock context (L2–L3)."
+
+  OBAYASHI_KAZUSA_MUDSTONE:
+    tier: primary_literature
+    title: "上総層群泥岩を対象とした施工時挙動の予測技術高度化 (Obayashi Technical Report No.80, 2016)"
+    publisher: "Obayashi Corporation"
+    url: "https://www.obayashi.co.jp/technology/shoho/080/2016_080_07.pdf"
+    use: "Kazusa Group mudstone behaviour (soft sedimentary rock, swelling/slaking)."
+
+  JSEG_SLAKING:
+    tier: industry_reference
+    title: "スレーキング (engineering-geology FAQ)"
+    publisher: "Japan Society of Engineering Geology (日本応用地質学会)"
+    url: "https://www.jseg.or.jp/chushikoku/wp-jseg/wp-content/uploads/2025/03/1_22.pdf"
+    use: "Slaking mechanism in mudstone/weak rock (L3–L4)."
+
+  JSEG_ALLUVIUM_DILUVIUM:
+    tier: industry_reference
+    title: "沖積層と洪積層の判別 / 平野部の基礎地盤調査 (engineering-geology FAQ)"
+    publisher: "Japan Society of Engineering Geology"
+    url: "https://www.jseg.or.jp/chushikoku/assets/file/faq/1-08.pdf"
+    use: "Alluvium vs terrace (diluvium) consolidation & liquefaction contrast (L1–L3)."
+
+  ROCK_ENG_NOTE:
+    tier: industry_reference
+    title: "岩石・岩盤の工学的性質 (engineering properties of rock — teaching notes)"
+    url: "http://mishi.weblike.jp/06rock_engineering.pdf"
+    use: "General weak/hard rock UCS context (L3)."
+
+  ENG_JUDGEMENT:
+    tier: engineering_judgement
+    title: "Authored screening estimate (this prototype)"
+    use: >
+      First-version indicative band assigned by general geotechnical reasoning
+      where no single citable source was used. Explicitly NON-design. Replace
+      with project data / textbooks.

@@ -1,0 +1,186 @@
+# =============================================================================
+# geology_to_geotech_rules.yaml  --  raw geology -> geotechnical ontology rules
+# -----------------------------------------------------------------------------
+# These rules map raw geology attributes (unit name, lithology, age, symbol) and
+# PDF/legend-derived descriptions to the ontology classes in geotech_ontology.yaml.
+#
+# How rules are applied (see src/classify.py):
+#   * Rules are evaluated in ascending `priority` (lower number = checked first).
+#     The FIRST matching rule wins; remaining rules only fill missing fields.
+#   * A rule matches if ANY of its match_keywords (ja or en) appears (substring,
+#     case-insensitive) in ANY of the configured `match_fields` of the unit.
+#   * `match_fields` refer to normalized fields: raw_unit_name_ja/en,
+#     raw_lithology, raw_age, raw_description, raw_unit_code/symbol.
+#   * If no rule matches -> class `mixed_or_uncertain_geology`, flagged for review.
+#
+# Confidence is intentionally CONSERVATIVE. Ambiguous geology resolves to lower
+# confidence and (often) a manual-review flag rather than a confident class.
+# Risk flags are SCREENING flags ("may be relevant"), never conclusions.
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  status: "draft-first-version"
+  matching: "first-match-wins by ascending priority; substring, case-insensitive"
+  confidence_levels: ["high", "medium", "low", "very_low"]
+  review_required: true
+
+rules:
+
+  - rule_id: R01_artificial_fill
+    priority: 10
+    match_keywords_ja: ["盛土", "埋立", "埋立地", "埋立土", "人工", "改変", "造成"]
+    match_keywords_en: ["fill", "reclaim", "reclaimed", "artificial", "embankment", "made ground"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: artificial_ground
+    engineering_ground_type: artificial_fill_reclaimed_ground
+    risk_flags: ["variable_fill", "settlement_screening", "liquefaction_screening", "contamination_screening", "unknown_fill_thickness"]
+    typical_ground_profile_hint: "Fill of unknown thickness/quality over natural ground."
+    recommended_investigation: ["Prove fill thickness and interface with boreholes", "Records search for fill age/method", "Environmental screening"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' indicates artificial/reclaimed ground (matched '{kw}'); fill composition and thickness are unknown and require verification."
+
+  - rule_id: R02_organic_swamp_soft
+    priority: 15
+    match_keywords_ja: ["泥炭", "湿地", "低湿地", "沼", "後背湿地", "腐植"]
+    match_keywords_en: ["peat", "swamp", "marsh", "back marsh", "organic", "wetland"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: soft_soil
+    engineering_ground_type: young_unconsolidated_soil
+    risk_flags: ["soft_compressible_soil", "settlement_screening", "shallow_groundwater", "organic_soil"]
+    typical_ground_profile_hint: "Soft/organic compressible soil, likely saturated; firmer soils at depth."
+    recommended_investigation: ["Boreholes with undisturbed sampling", "Consolidation testing", "Groundwater monitoring"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' suggests organic/swamp soft soil (matched '{kw}'); high compressibility and shallow water are plausible but unconfirmed."
+
+  - rule_id: R03_alluvium
+    priority: 20
+    match_keywords_ja: ["沖積", "現河床", "河床", "氾濫原", "谷底", "自然堤防", "砂州", "三角州", "扇状地", "旧河道", "崖錐", "沖積錐"]
+    match_keywords_en: ["alluvium", "alluvial", "riverbed", "river bed", "flood plain", "floodplain", "valley floor", "natural levee", "delta", "fan deposit", "abandoned channel", "talus"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_description"]
+    engineering_material_family: alluvial_soil
+    engineering_ground_type: alluvial_lowland_deposits
+    risk_flags: ["interbedded_variability", "settlement_screening", "shallow_groundwater", "liquefaction_screening"]
+    typical_ground_profile_hint: "Interbedded gravel/sand/silt/clay; shallow groundwater common."
+    recommended_investigation: ["Boreholes with SPT", "Groundwater monitoring", "Liquefaction screening for saturated sand"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is Holocene alluvial-type deposit (matched '{kw}'); interbedded soils and shallow groundwater are plausible, governing layer unknown."
+
+  - rule_id: R04_loam_volcanic_ash
+    priority: 25
+    match_keywords_ja: ["ローム", "ロ−ム", "火山灰", "関東ローム", "スコリア", "軽石", "テフラ", "黒ボク"]
+    match_keywords_en: ["loam", "volcanic ash", "tephra", "scoria", "pumice", "ash soil"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: volcanic_ash_soil
+    engineering_ground_type: volcanic_ash_loam
+    risk_flags: ["moisture_sensitive", "high_void_ratio", "thickness_uncertainty", "slope_surface_erosion"]
+    typical_ground_profile_hint: "Loam/ash mantle of variable thickness over terrace/older deposits."
+    recommended_investigation: ["Log loam thickness with boreholes/test pits", "Water content / Atterberg tests", "Slope surface-stability assessment"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is volcanic ash / loam (matched '{kw}'); moisture sensitivity and variable thickness are plausible screening concerns."
+
+  - rule_id: R05_terrace
+    priority: 30
+    match_keywords_ja: ["段丘", "段丘堆積物", "段丘礫", "ローム段丘", "海成段丘", "河成段丘"]
+    match_keywords_en: ["terrace", "terrace deposit", "terrace gravel", "marine terrace", "river terrace", "fluvial terrace"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_description"]
+    engineering_material_family: terrace_soil
+    engineering_ground_type: terrace_deposits
+    risk_flags: ["abrupt_layer_change", "cobbles_boulders_possible", "perched_water_possible"]
+    typical_ground_profile_hint: "Loam/ash over dense terrace gravel/sand over older deposits."
+    recommended_investigation: ["Boreholes with SPT, note refusal/cobble layers", "Check perched water on clay layers"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is a Pleistocene terrace deposit (matched '{kw}'); generally firmer ground with abrupt layering and possible cobbles."
+
+  - rule_id: R06_tuff_pyroclastic
+    priority: 35
+    match_keywords_ja: ["凝灰岩", "凝灰質", "火砕", "火砕流", "溶結", "軽石凝灰岩"]
+    match_keywords_en: ["tuff", "tuffaceous", "pyroclastic", "welded", "ignimbrite"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: pyroclastic_ground
+    engineering_ground_type: pyroclastic_tuffaceous_ground
+    risk_flags: ["variable_strength", "weathering_degradation", "perched_water_possible", "slope_excavation_risk"]
+    typical_ground_profile_hint: "Variable induration; weathered zone over fresher material."
+    recommended_investigation: ["Rotary core boreholes, weathering grade + RQD", "Slake-durability / strength tests", "Slope/excavation assessment"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is tuff/pyroclastic (matched '{kw}'); strength and weathering are highly variable and must be tested."
+
+  - rule_id: R07_weak_sedimentary_rock
+    priority: 40
+    match_keywords_ja: ["泥岩", "頁岩", "シルト岩", "砂岩", "砂泥互層", "礫岩", "層群", "堆積岩"]
+    match_keywords_en: ["mudstone", "shale", "siltstone", "sandstone", "conglomerate", "alternation", "sedimentary rock", "formation", "group"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: weak_rock
+    engineering_ground_type: weak_sedimentary_rock
+    risk_flags: ["slaking", "weathering_degradation", "variable_rockhead", "bedding_controlled_slope_excavation"]
+    typical_ground_profile_hint: "Soil/weathered rock over progressively fresher rock; variable rockhead."
+    recommended_investigation: ["Rotary core boreholes; RQD, weathering, bedding", "Slake-durability / point-load / UCS", "Bedding-aware slope and excavation assessment"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is weak sedimentary rock (matched '{kw}'); slaking, weathering and variable rockhead are plausible concerns."
+
+  - rule_id: R08_hard_crystalline_rock
+    priority: 45
+    match_keywords_ja: ["花崗岩", "閃緑岩", "片麻岩", "結晶片岩", "チャート", "石灰岩", "斑れい岩", "玄武岩", "安山岩"]
+    match_keywords_en: ["granite", "diorite", "gneiss", "schist", "chert", "limestone", "gabbro", "basalt", "andesite", "crystalline"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_lithology", "raw_description"]
+    engineering_material_family: hard_rock
+    engineering_ground_type: hard_crystalline_rock
+    risk_flags: ["weathered_zone", "corestones_possible", "jointing_control", "variable_rockhead"]
+    typical_ground_profile_hint: "Residual soil / weathered rock over fresh rock; rockhead variable."
+    recommended_investigation: ["Rotary core boreholes; weathering grade, RQD, joint survey", "Assess excavatability / corestones"]
+    interpretation_confidence_default: medium
+    interpretation_reason_template: "Unit '{name}' is hard/crystalline rock (matched '{kw}'); a weathered mantle and jointing control behaviour."
+
+  - rule_id: R09_fault_fracture
+    priority: 5
+    match_keywords_ja: ["断層", "破砕", "破砕帯", "せん断帯", "断層破砕"]
+    match_keywords_en: ["fault", "fracture zone", "shear zone", "crush zone", "fault zone"]
+    match_fields: ["raw_unit_name_ja", "raw_unit_name_en", "raw_description", "raw_unit_code"]
+    engineering_material_family: fault_fracture
+    engineering_ground_type: fault_fracture_zone
+    risk_flags: ["high_uncertainty", "low_strength_zone", "groundwater_pathway", "slope_tunnel_risk"]
+    typical_ground_profile_hint: "Localised crushed/weak ground and concentrated groundwater along structure."
+    recommended_investigation: ["Targeted boreholes/geophysics across structure", "Groundwater inflow assessment"]
+    interpretation_confidence_default: low
+    interpretation_reason_template: "Unit/feature '{name}' indicates a fault/fracture zone (matched '{kw}'); position and width are approximate at 1:50,000."
+
+  # --- lithology-only fallback rules (lower priority, lower confidence) ------
+
+  - rule_id: R20_litho_mud_soft
+    priority: 60
+    match_keywords_ja: ["泥", "シルト", "粘土"]
+    match_keywords_en: ["mud", "silt", "clay"]
+    match_fields: ["raw_lithology"]
+    engineering_material_family: soft_soil
+    engineering_ground_type: young_unconsolidated_soil
+    risk_flags: ["soft_compressible_soil", "settlement_screening", "shallow_groundwater"]
+    typical_ground_profile_hint: "Fine-grained, potentially soft/compressible soil."
+    recommended_investigation: ["Boreholes with sampling", "Consolidation testing if settlement-sensitive"]
+    interpretation_confidence_default: low
+    interpretation_reason_template: "Only lithology ('{kw}') was available; fine-grained soil assumed pending unit confirmation."
+
+  - rule_id: R21_litho_gravel_sand
+    priority: 65
+    match_keywords_ja: ["礫", "砂"]
+    match_keywords_en: ["gravel", "sand", "cobble"]
+    match_fields: ["raw_lithology"]
+    engineering_material_family: alluvial_soil
+    engineering_ground_type: alluvial_lowland_deposits
+    risk_flags: ["interbedded_variability", "liquefaction_screening"]
+    typical_ground_profile_hint: "Granular soil; density and saturation unknown."
+    recommended_investigation: ["Boreholes with SPT", "Liquefaction screening if saturated"]
+    interpretation_confidence_default: low
+    interpretation_reason_template: "Only lithology ('{kw}') was available; granular soil assumed pending unit confirmation."
+
+  - rule_id: R99_unmatched
+    priority: 999
+    match_keywords_ja: []
+    match_keywords_en: []
+    match_fields: []
+    engineering_material_family: mixed_or_unknown
+    engineering_ground_type: mixed_or_uncertain_geology
+    risk_flags: ["unclassified", "needs_manual_review"]
+    typical_ground_profile_hint: "Insufficient information to hypothesise a profile."
+    recommended_investigation: ["Manual review of source legend and explanation sheet"]
+    interpretation_confidence_default: very_low
+    interpretation_reason_template: "No rule matched the available attributes; unit requires manual review."

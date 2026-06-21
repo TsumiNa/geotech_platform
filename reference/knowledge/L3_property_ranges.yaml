@@ -1,0 +1,163 @@
+# =============================================================================
+# L3_property_ranges.yaml  --  INDICATIVE (screening) property bands per ground type
+# -----------------------------------------------------------------------------
+# *** NOT DESIGN VALUES. ***  Every band is a literature-typical / judgement
+# screening range for early planning only. Each carries `source_ref` (see
+# sources.yaml) and `design_use: false`. Site investigation governs all design.
+#
+# Fields per ground type:
+#   mechanical: SPT-N, unit weight, strength (soil c/phi or rock UCS), stiffness,
+#               compressibility, permeability  -- as qualitative bands/ranges
+#   chemical:   notes relevant to behaviour (organics, smectite/slaking, salinity,
+#               contamination potential)
+#   key_concerns: the property drivers an engineer should confirm first
+# =============================================================================
+
+meta:
+  version: "0.1.0"
+  design_use: false
+  disclaimer: >
+    Indicative screening ranges only. Do NOT use as design parameters. Confirm by
+    site investigation and the project's standards. Replace with project data.
+
+ground_types:
+
+  young_unconsolidated_soil:
+    summary_en: "Soft/loose Holocene soil; settlement & (for sandy parts) liquefaction drivers."
+    mechanical:
+      spt_n_typical: "0–5 (soft clay / loose; can be N=0 in organic soil)"
+      unit_weight_kN_m3: "12–17 (lower for organic/peat)"
+      soil_strength: "cu ~ 10–40 kPa (soft–firm clay, indicative); loose sand φ' ~ 25–32°"
+      compressibility: "high to very high (normally / under-consolidated; organic = extreme)"
+      permeability: "low for clay/silt; moderate for sandy interbeds"
+    chemical:
+      notes_en: "Organic content can be high (peat); pore water often near surface."
+    key_concerns_en: ["consolidation settlement", "low bearing", "liquefaction of loose saturated sand"]
+    source_ref: [JSEG_ALLUVIUM_DILUVIUM, ENG_JUDGEMENT]
+    design_use: false
+
+  artificial_fill_reclaimed_ground:
+    summary_en: "Engineered behaviour unknown; treat as heterogeneous until proven."
+    mechanical:
+      spt_n_typical: "highly variable (N≈0 loose dumped fill to >30 compacted) — UNKNOWN without data"
+      unit_weight_kN_m3: "14–20 (depends on material)"
+      soil_strength: "indeterminate from map; depends on source material & compaction"
+      compressibility: "variable; loose/old uncontrolled fill can keep settling"
+      permeability: "variable"
+    chemical:
+      notes_en: "Reclaimed/industrial fill may contain contaminants; possible aggressive ground (sulphates/chloride) on coastal reclamation."
+    key_concerns_en: ["fill thickness & interface", "self-weight/ongoing settlement", "liquefaction of loose saturated sandy fill", "contamination"]
+    source_ref: [ENG_JUDGEMENT, GSJ_MAP]
+    design_use: false
+
+  alluvial_lowland_deposits:
+    summary_en: "Interbedded gravel/sand/silt/clay; governing layer must be proven."
+    mechanical:
+      spt_n_typical: "wide range: soft clay N<5; medium sand N≈10–30; dense gravel N>30"
+      unit_weight_kN_m3: "16–20"
+      soil_strength: "layer-dependent; sand φ' ~ 28–36°, clay cu ~ 20–60 kPa (indicative)"
+      compressibility: "medium (clay/silt interbeds compressible; gravels not)"
+      permeability: "high in gravels/sands; low in clay layers (perched/confined possible)"
+    chemical:
+      notes_en: "Generally inert; organic lenses possible in abandoned channels."
+    key_concerns_en: ["layer variability", "shallow groundwater", "liquefaction of saturated loose sand"]
+    source_ref: [JSEG_ALLUVIUM_DILUVIUM, ENG_JUDGEMENT]
+    design_use: false
+
+  terrace_deposits:
+    summary_en: "Overconsolidated Pleistocene gravel/sand; often a bearing stratum."
+    mechanical:
+      spt_n_typical: "dense gravel/sand commonly N>30–50 (refusal in cobbles)"
+      unit_weight_kN_m3: "18–21"
+      soil_strength: "dense granular φ' ~ 35–40° (indicative); stiff clay caps possible"
+      compressibility: "low (overconsolidated)"
+      permeability: "high in gravel; clay caps create perched water"
+    chemical:
+      notes_en: "Generally inert."
+    key_concerns_en: ["cobbles/boulders (refusal, piling)", "abrupt layering", "perched water on clay caps"]
+    source_ref: [JSEG_ALLUVIUM_DILUVIUM, ENG_JUDGEMENT]
+    design_use: false
+
+  volcanic_ash_loam:
+    summary_en: "Kanto Loam: high water content & void ratio, moisture-sensitive, structured."
+    mechanical:
+      spt_n_typical: "low, commonly N≈1–5 (soft, but structured)"
+      unit_weight_kN_m3: "12–15 (low; high void ratio)"
+      soil_strength: "indicative triaxial c ≈ 50 kPa, φ ≈ 8° reported for undisturbed loam (can exceed generic soft-clay values when intact)"
+      compressibility: "moderate–high; sensitive structure can collapse/soften on remoulding"
+      permeability: "moderate (aggregated structure raises permeability vs water content)"
+    chemical:
+      notes_en: "Allophane/imogolite clay minerals; very high natural water content (≈ 60–130%); behaviour changes markedly on disturbance/drying."
+    key_concerns_en: ["moisture sensitivity", "high void ratio / collapse on disturbance", "thickness variability", "cut-slope surface erosion"]
+    source_ref: [GSJ_BULL_KANTO_LOAM, JSCE_KANTO_LOAM_WC, ZENCHIREN_KANTO_LOAM]
+    design_use: false
+
+  pyroclastic_tuffaceous_ground:
+    summary_en: "Tuff/pyroclastic: strength from soil-like to weak rock; weathering-sensitive."
+    mechanical:
+      spt_n_typical: "soil-like portions N≈10–50; lithified portions are rock (use UCS)"
+      unit_weight_kN_m3: "14–20"
+      rock_ucs_MPa: "low and variable; weakly welded tuff can be < 5 MPa, ranging upward"
+      compressibility: "variable"
+      permeability: "variable; perched water on contacts"
+    chemical:
+      notes_en: "May contain swelling clay (smectite) from devitrification → slaking/softening."
+    key_concerns_en: ["strength variability", "weathering/slaking", "perched water", "slope/excavation stability"]
+    source_ref: [ROCK_ENG_NOTE, JSEG_SLAKING]
+    design_use: false
+
+  weak_sedimentary_rock:
+    summary_en: "Mudstone/sandstone/alternation (e.g. Kazusa, Miura groups); soft rock, slaking-prone."
+    mechanical:
+      spt_n_typical: "N>50 / refusal at rockhead; use rock testing below"
+      unit_weight_kN_m3: "17–23"
+      rock_ucs_MPa: "soft rock, generally < 25 MPa (mudstone often a few MPa fresh, lower when weathered/wet)"
+      compressibility: "low when fresh; weathered/softened zones more deformable"
+      permeability: "low matrix; discontinuity/bedding controlled"
+    chemical:
+      notes_en: "Mudstone may contain smectite → swelling and slaking on wetting/drying; UCS drops markedly with water content."
+    key_concerns_en: ["slaking on exposure", "weathering profile / variable rockhead", "bedding-controlled slope & excavation", "softening on wetting"]
+    source_ref: [OBAYASHI_KAZUSA_MUDSTONE, JGS_3811_ROCK, JSEG_SLAKING]
+    design_use: false
+
+  hard_crystalline_rock:
+    summary_en: "Strong crystalline/igneous rock; weathered mantle & jointing govern."
+    mechanical:
+      spt_n_typical: "refusal at rockhead; residual soil/weathered zone can be soil-like above"
+      unit_weight_kN_m3: "23–27 (fresh rock)"
+      rock_ucs_MPa: "high when fresh (commonly > 50 MPa); much lower in weathered grades"
+      compressibility: "very low (fresh)"
+      permeability: "low matrix; joint/fracture controlled"
+    chemical:
+      notes_en: "Generally inert; weathered granite can form clayey residual soil; corestones in weathered profile."
+    key_concerns_en: ["weathered zone depth", "corestones (excavation/piling)", "joint/discontinuity control", "variable rockhead"]
+    source_ref: [JGS_3811_ROCK, ENG_JUDGEMENT]
+    design_use: false
+
+  fault_fracture_zone:
+    summary_en: "Localized crushed/weak material & groundwater pathway; high spatial uncertainty."
+    mechanical:
+      spt_n_typical: "anomalous/low within the zone; highly variable"
+      unit_weight_kN_m3: "variable"
+      rock_ucs_MPa: "reduced; crushed/sheared material"
+      compressibility: "elevated in gouge/crushed zones"
+      permeability: "often elevated (conduit) or locally sealed (gouge barrier)"
+    chemical:
+      notes_en: "Altered/clayey gouge possible (smectite); concentrated groundwater."
+    key_concerns_en: ["zone position & width (approximate on map)", "low-strength gouge", "groundwater inflow", "slope/tunnel influence"]
+    source_ref: [GSJ_MAP, JGS_3811_ROCK]
+    design_use: false
+
+  mixed_or_uncertain_geology:
+    summary_en: "Insufficient/ambiguous data; no property band assigned."
+    mechanical:
+      spt_n_typical: "unknown"
+      unit_weight_kN_m3: "unknown"
+      soil_strength: "unknown"
+      compressibility: "unknown"
+      permeability: "unknown"
+    chemical:
+      notes_en: "unknown"
+    key_concerns_en: ["manual review required before any property is assumed"]
+    source_ref: [ENG_JUDGEMENT]
+    design_use: false
