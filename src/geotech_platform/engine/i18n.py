@@ -13,9 +13,12 @@ code so the app never crashes on a missing key.
 from __future__ import annotations
 
 import os
+
 import yaml
 
-REF = os.path.join(os.path.dirname(__file__), "..", "reference", "i18n_ja.yaml")
+from . import config
+
+REF = os.path.join(config.REFERENCE, "i18n_ja.yaml")
 
 _DOC = None
 
